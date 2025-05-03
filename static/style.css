@@ -1,0 +1,2732 @@
+/* =============================================================================
+   Youtubingest Stylesheet
+   =============================================================================
+   Main stylesheet organized by:
+   1. CSS Variables & Theme Management
+   2. Base Styles & Reset
+   3. Layout & Grid
+   4. Typography
+   5. Component Styles
+   6. Utilities & Helpers
+   7. Animations & Transitions
+   8. Responsive Adjustments
+   ============================================================================= */
+
+/* --- 1. CSS VARIABLES & THEME MANAGEMENT --- */
+:root {
+    /* Font Families */
+    --font-sans: 'Inter', system-ui, sans-serif; /* Primary sans-serif font stack */
+    --font-mono: 'Roboto Mono', monospace;      /* Monospace font stack for code, kbd, etc. */
+
+    /* ===== COLOR PALETTE - LIGHT THEME ===== */
+    /* Base Colors - Light Theme */
+    --color-teal-primary: #057C85;      /* Primary brand color (Teal) */
+    --color-teal-primary-rgb: 5, 124, 133; /* RGB values for teal-primary */
+    --color-teal-accent: #35949B;       /* Accent color for buttons and interactive elements (Teal) */
+    --color-teal-accent-hover: #2A7A80; /* Accent color on hover (Darker Teal) */
+    --color-teal-light: #B1DAD6;        /* Light Teal for active states and highlights */
+    --color-teal-bg-light: #D5F0F3;     /* Very light teal for backgrounds */
+
+    --color-coral-primary: #B3524A;     /* Primary coral color (Dark mode accent) */
+    --color-coral-primary-rgb: 179, 82, 74; /* RGB values for coral-primary */
+    --color-coral-hover: #9A443D;       /* Darker coral for hover states */
+    --color-coral-light: #D75E53;       /* Lighter coral for warnings and errors */
+    --color-coral-light-rgb: 215, 94, 83; /* RGB values for coral-light */
+    --color-coral-bg-light: #FFEAE8;    /* Very light coral for backgrounds */
+
+    --color-deep-blue: #0B5067;         /* Deep blue for secondary elements */
+
+    /* Grays - Base Palette */
+    --color-gray-100: #f4f4f4;          /* Very light gray */
+    --color-gray-100-rgb: 244, 244, 244;
+    --color-gray-200: #e4e4e4;          /* Light gray */
+    --color-gray-200-rgb: 228, 228, 228;
+    --color-gray-300: #d4d4d4;          /* Medium-light gray */
+    --color-gray-300-rgb: 212, 212, 212;
+    --color-gray-400: #cccccc;          /* Medium gray */
+    --color-gray-400-rgb: 204, 204, 204;
+    --color-gray-500: #aaaaaa;          /* Medium-dark gray */
+    --color-gray-500-rgb: 170, 170, 170;
+    --color-gray-600: #777777;          /* Dark gray */
+    --color-gray-600-rgb: 119, 119, 119;
+    --color-gray-700: #666666;          /* Darker gray */
+    --color-gray-700-rgb: 102, 102, 102;
+    --color-gray-800: #555555;          /* Very dark gray */
+    --color-gray-800-rgb: 85, 85, 85;
+    --color-gray-900: #444444;          /* Very dark gray (almost black) */
+    --color-gray-900-rgb: 68, 68, 68;
+    --color-gray-950: #333333;          /* Extremely dark gray */
+    --color-gray-950-rgb: 51, 51, 51;
+
+    /* Status Colors - Light Theme */
+    --color-warning-bg: #fbf6e3;        /* Light yellow background for warnings */
+    --color-warning-bg-rgb: 251, 246, 227;
+    --color-warning-text: #9A7B05;      /* Dark yellow/gold for warning text */
+    --color-warning-text-rgb: 154, 123, 5;
+    --color-warning-border: #efd877;    /* Light yellow border for warnings */
+    --color-warning-border-rgb: 239, 216, 119;
+
+    --color-success-bg: #e9f2d2;        /* Light green background for success */
+    --color-success-bg-rgb: 233, 242, 210;
+    --color-success-text: #88b12b;      /* Dark green for success text */
+    --color-success-text-rgb: 136, 177, 43;
+    --color-success-border: #c0da66;    /* Light green border for success */
+    --color-success-border-rgb: 192, 218, 102;
+
+    /* Common Colors */
+    --color-white: #ffffff;             /* Pure white */
+    --color-white-rgb: 255, 255, 255;
+    --color-black: #000000;             /* Pure black */
+    --color-black-rgb: 0, 0, 0;
+    --color-transparent-light: rgba(0, 0, 0, 0.08); /* Subtle dark overlay for light theme */
+    --color-transparent-dark: rgba(255, 255, 255, 0.05); /* Subtle light overlay for dark theme */
+
+    /* Text Colors - Light Theme (Using Gray Scale) */
+    --color-text-base: var(--color-gray-950);    /* Base text color (Dark Gray) */
+    --color-text-muted: var(--color-gray-700);   /* Muted text color for secondary information */
+    --color-text-subtle: var(--color-gray-600);  /* Subtle text color for less important details */
+    --color-text-inverted: #F7F7F7;     /* Text color for use on dark backgrounds (Off-White) */
+    --color-text-inverted-rgb: 247, 247, 247;
+    --color-text-error: #CE2717;        /* Text color for error messages (Deep Red) */
+    --color-text-error-rgb: 206, 39, 23;
+
+    /* Background Colors - Light Theme */
+    --color-bg-base: var(--color-text-inverted); /* Base background color (Off-White) */
+    --color-bg-alt: #E8E8E8;            /* Alternative background for cards or sections */
+    --color-bg-alt-rgb: 232, 232, 232;
+    --color-bg-alt-2: #E3E1E8;          /* Another alternative background for nested elements */
+    --color-bg-alt-2-rgb: 227, 225, 232;
+
+    /* Border Colors - Light Theme */
+    --color-border-base: var(--color-gray-900); /* Base border color (Dark Gray) */
+    --color-border-muted: #999999;      /* Muted border color for dividers, inputs (Medium Gray) */
+    --color-border-muted-rgb: 153, 153, 153;
+
+    /* ===== FUNCTIONAL COLOR ASSIGNMENTS ===== */
+    /* Primary UI Colors */
+    --color-primary: var(--color-teal-primary);  /* Primary brand color */
+    --color-accent: var(--color-teal-accent);    /* Accent color for buttons */
+    --color-accent-hover: var(--color-teal-accent-hover); /* Hover state */
+    --color-accent-active: var(--color-teal-light); /* Active/pressed state */
+
+    /* Dark Theme Colors (defined in light theme for reference) */
+    --color-accent-dark: var(--color-coral-primary); /* Dark theme accent */
+    --color-accent-dark-hover: var(--color-coral-hover); /* Dark theme hover */
+
+    /* Text Colors - Functional Assignments */
+    --color-text-warning: var(--color-coral-light); /* Warning text */
+    --color-text-success: var(--color-success-text); /* Success text */
+
+    /* Background Colors - Functional Assignments */
+    --color-bg-muted: var(--color-bg-alt);       /* Muted background (same as alt) */
+    --color-bg-button-example: var(--color-bg-alt); /* Example button background */
+    --color-bg-button-action: var(--color-accent); /* Action button background */
+    --color-bg-button-action-hover: var(--color-accent-hover); /* Action button hover */
+
+    /* Error/Status Colors - Functional Assignments */
+    --color-error: var(--color-text-error);      /* Error text color */
+    --color-error-bg: var(--color-coral-bg-light); /* Error background */
+    --color-error-border: var(--color-coral-light); /* Error border */
+
+    /* Border Colors - Functional Assignments */
+    --color-border-error: var(--color-coral-light); /* Error border */
+
+    /* Hero Icon Fill Colors */
+    --hero-icon-left-fill: #FE4A60;     /* Left hero icon fill color (Coral Red) */
+    --hero-icon-left-fill-rgb: 254, 74, 96;
+    --hero-icon-right-fill: var(--color-primary); /* Right hero icon fill color (Teal) */
+
+    /* Shadows & Focus */
+    --color-shadow-base: var(--color-gray-950);  /* Shadow color for light theme */
+    --color-focus-ring: #289dcc;        /* Focus ring color (Blue) */
+    --color-focus-ring-rgb: 40, 157, 204;
+    --shadow-offset-x: 4px;             /* Horizontal offset for shadows */
+    --shadow-offset-y: 4px;             /* Vertical offset for shadows */
+    --shadow-active-offset-x: 2px;      /* Horizontal offset for active shadows */
+    --shadow-active-offset-y: 2px;      /* Vertical offset for active shadows */
+    --shadow-base: 0 1px 3px rgba(var(--color-black-rgb), 0.1), 0 1px 2px rgba(var(--color-black-rgb), 0.06); /* Subtle shadow */
+    --shadow-lg: 0 10px 15px -3px rgba(var(--color-black-rgb), 0.1), 0 4px 6px -2px rgba(var(--color-black-rgb), 0.05); /* Larger shadow */
+
+    /* Component Specific Variables */
+    --scrollbar-track: var(--color-bg-base);     /* Scrollbar track background */
+    --scrollbar-thumb: var(--color-gray-400);    /* Scrollbar thumb color */
+    --scrollbar-thumb-hover: var(--color-gray-500); /* Scrollbar thumb hover */
+    --loader-border: var(--color-gray-200);      /* Loader spinner track */
+    --loader-top: var(--color-accent);  /* Loader spinner active part */
+    --toast-bg: var(--color-white);     /* Toast notification background */
+    --toast-text: var(--color-text-base); /* Toast notification text */
+    --toast-shadow: var(--shadow-lg);   /* Toast notification shadow */
+    --date-picker-invert: 0;            /* Date picker icon inversion (light mode) */
+
+    /* Sizing & Spacing */
+    --border-width-base: 3px;           /* Standard border width */
+    --border-width-thin: 2px;           /* Thinner border width */
+    --radius-base: 0.375rem;            /* Base border radius (6px) */
+    --radius-lg: 0.5rem;                /* Large border radius (8px) */
+    --radius-xl: 0.75rem;               /* Extra large border radius (12px) */
+    --radius-full: 9999px;              /* Full border radius for pills/circles */
+
+    /* Spacing Scale (based on 0.25rem = 4px unit) */
+    --space-1: 0.25rem;  /* 4px */
+    --space-2: 0.5rem;   /* 8px */
+    --space-3: 0.75rem;  /* 12px */
+    --space-4: 1rem;     /* 16px */
+    --space-5: 1.25rem;  /* 20px */
+    --space-6: 1.5rem;   /* 24px */
+    --space-8: 2rem;     /* 32px */
+    --space-10: 2.5rem;  /* 40px */
+    --space-12: 3rem;    /* 48px */
+    --space-16: 4rem;    /* 64px */
+
+    /* Animation & Transition Timing */
+    --transition-standard: 0.2s ease-in-out; /* Standard transition */
+    --transition-fast: 0.1s ease-out;       /* Fast transition */
+
+    /* Z-Indexes */
+    --z-10: 10;  /* Base layer elements */
+    --z-50: 50;  /* Sticky elements like headers */
+    --z-60: 60;  /* Overlays like modals */
+    --z-100: 100; /* Top-most elements like toasts */
+}
+
+/* Dark Theme Variable Overrides */
+html.dark {
+    /* ===== COLOR PALETTE - DARK THEME ===== */
+    /* Dark Theme Base Colors */
+    --color-dark-bg-base: #212529;      /* Very Dark Blue-Gray */
+    --color-dark-bg-base-rgb: 33, 37, 41;
+    --color-dark-bg-alt: #3A4856;       /* Dark Blue-Gray */
+    --color-dark-bg-alt-rgb: 58, 72, 86;
+    --color-dark-bg-alt-2: #43484E;     /* Medium Blue-Gray */
+    --color-dark-bg-alt-2-rgb: 67, 72, 78;
+    --color-dark-bg-muted: #404751;     /* Medium-Dark Blue-Gray */
+    --color-dark-bg-muted-rgb: 64, 71, 81;
+    --color-dark-bg-button: #3E3E3E;    /* Dark Gray for buttons */
+    --color-dark-bg-button-rgb: 62, 62, 62;
+
+    /* Text Colors - Dark Theme */
+    --color-text-base: #F3F5F7;         /* Off-White/Pale Blue-Gray */
+    --color-text-base-rgb: 243, 245, 247;
+    --color-text-muted: var(--color-teal-light); /* Light Teal */
+    --color-text-subtle: #999999;       /* Medium Gray */
+    --color-text-inverted: var(--color-gray-950); /* Dark Gray (inverted from light theme) */
+    --color-text-error: var(--color-coral-light); /* Coral Red */
+    --color-text-warning: var(--color-coral-light); /* Coral Red */
+
+    /* Background Colors - Dark Theme */
+    --color-bg-base: var(--color-dark-bg-base);  /* Very Dark Blue-Gray */
+    --color-bg-alt: var(--color-dark-bg-alt);    /* Dark Blue-Gray */
+    --color-bg-alt-2: var(--color-dark-bg-alt-2); /* Medium Blue-Gray */
+    --color-bg-muted: var(--color-dark-bg-muted); /* Medium-Dark Blue-Gray */
+
+    /* Border Colors - Dark Theme */
+    --color-border-base: var(--color-gray-600);  /* Medium Gray */
+    --color-border-muted: var(--color-gray-700); /* Dark Gray */
+
+    /* Status Colors - Dark Theme */
+    --color-warning-bg: rgba(196, 168, 10, 0.2); /* Transparent yellow background */
+    --color-warning-text: #efd877;      /* Light yellow text */
+    --color-warning-text-rgb: 239, 216, 119;
+    --color-warning-border: rgba(196, 168, 10, 0.5); /* Semi-transparent yellow border */
+
+    --color-success-bg: rgba(136, 177, 43, 0.3); /* Transparent green background */
+    --color-success-text: #c0da66;      /* Light green text */
+    --color-success-text-rgb: 192, 218, 102;
+    --color-success-border: rgba(136, 177, 43, 0.5); /* Semi-transparent green border */
+
+    /* Error Colors - Dark Theme */
+    --color-error-bg: rgba(179, 82, 74, 0.2);    /* Transparent coral background */
+    --color-error-bg-dark: rgba(179, 82, 74, 0.2); /* For backward compatibility */
+
+    /* ===== FUNCTIONAL COLOR ASSIGNMENTS - DARK THEME ===== */
+    /* Primary UI Colors */
+    --color-accent: var(--color-accent-dark); /* Use coral as accent in dark mode */
+    --color-accent-hover: var(--color-accent-dark-hover); /* Use coral hover in dark mode */
+    --color-accent-active: var(--color-teal-light); /* Keep teal light for active state */
+
+    /* Background Colors - Functional Assignments */
+    --color-bg-button-example: var(--color-dark-bg-button); /* Dark Gray for example buttons */
+    --color-bg-button-action: var(--color-accent-dark); /* Use coral for action buttons */
+    --color-bg-button-action-hover: var(--color-accent-dark-hover); /* Use coral hover */
+
+    /* Hero Icon Fill Colors - Dark Theme */
+    --hero-icon-left-fill: var(--color-teal-light); /* Light Teal for left icon */
+    --hero-icon-right-fill: var(--color-deep-blue); /* Deep Blue for right icon */
+
+    /* Shadow & Focus Colors - Dark Theme */
+    --color-shadow-base: var(--color-black); /* Black for shadows in dark mode */
+    --color-focus-ring: var(--color-teal-light); /* Light Teal for focus rings */
+
+    /* Component Specific Variables - Dark Theme */
+    --scrollbar-track: var(--color-bg-alt); /* Dark Blue-Gray for scrollbar track */
+    --scrollbar-thumb: var(--color-gray-600); /* Medium Gray for scrollbar thumb */
+    --scrollbar-thumb-hover: var(--color-gray-500); /* Light Gray for scrollbar hover */
+    --loader-border: var(--color-bg-alt); /* Dark Blue-Gray for loader border */
+    --toast-bg: var(--color-bg-alt-2); /* Medium Blue-Gray for toast background */
+    --date-picker-invert: 1; /* Invert date picker icon in dark mode */
+}
+
+/* --- 2. BASE STYLES & RESET --- */
+
+/* Universal reset for consistent box model and spacing */
+*, *::before, *::after {
+    box-sizing: border-box; /* Include padding and border in element's total width and height */
+    margin: 0;              /* Remove default margins */
+    padding: 0;             /* Remove default padding */
+}
+
+/* Smooth scrolling behavior for anchor links */
+html {
+    scroll-behavior: smooth;
+    font-size: 16px; /* Base font size */
+}
+
+/* Basic body setup */
+body {
+    font-family: var(--font-sans);          /* Apply base font family */
+    background-color: var(--color-bg-base); /* Apply base background color */
+    color: var(--color-text-base);          /* Apply base text color */
+    min-height: 100vh;                      /* Ensure body takes at least full viewport height */
+    display: flex;                          /* Enable flex layout */
+    flex-direction: column;                 /* Stack children vertically (main, footer) */
+    -webkit-font-smoothing: antialiased;    /* Improve font rendering on WebKit */
+    -moz-osx-font-smoothing: grayscale;     /* Improve font rendering on Firefox */
+    transition: background-color var(--transition-standard), color var(--transition-standard); /* Smooth theme transitions */
+}
+
+/* Ensure main content area grows to fill available space */
+main {
+    flex-grow: 1;
+}
+
+/* Default link styles */
+a {
+    color: var(--color-primary); /* Use primary color for links */
+    text-decoration: none;       /* Remove default underline */
+}
+
+a:hover {
+    text-decoration: underline; /* Add underline on hover for clarity */
+}
+
+/* Basic button reset */
+button {
+    font-family: inherit; /* Inherit font from parent */
+    cursor: pointer;      /* Set pointer cursor */
+    border: none;         /* Remove default border */
+    background: none;     /* Remove default background */
+    padding: 0;           /* Remove default padding */
+    color: inherit;       /* Inherit text color */
+}
+
+/* Ensure form elements inherit font styles */
+input, textarea, select {
+    font-family: inherit;
+    font-size: inherit;
+}
+
+/* Accessible focus outline for keyboard navigation */
+/* Applied to common interactive elements */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+details:focus-visible,
+summary:focus-visible,
+li[role="option"]:focus-visible { /* Include list items acting as options */
+    outline: 3px solid var(--color-focus-ring); /* Use variable for focus ring color */
+    outline-offset: 2px;                        /* Offset outline slightly */
+    border-radius: var(--radius-base);          /* Apply base border radius */
+    transition: outline var(--transition-fast); /* Smooth transition for outline appearance */
+}
+
+/* Remove default focus outline when interaction is not via keyboard (e.g., mouse click) */
+:focus:not(:focus-visible) {
+    outline: none;
+}
+
+/* Apply monospace font to preformatted text, textareas, code, and keyboard input elements */
+pre, textarea, code, kbd {
+    font-family: var(--font-mono);
+}
+
+/* Ensure SVGs scale properly and align vertically */
+svg {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/* Basic heading styles */
+h1, h2, h3, h4 {
+    font-weight: bold; /* Ensure headings are bold */
+}
+
+/* Styling for keyboard shortcut indicators (<kbd>) */
+kbd {
+    padding: var(--space-1);
+    background-color: #e4e4e4; /* Light gray background */
+    border-radius: var(--radius-base);
+    color: #555555; /* Dark gray text */
+    font-size: 0.75rem; /* Smaller font size */
+    font-family: var(--font-mono); /* Monospace font */
+    border: 1px solid #d4d4d4; /* Subtle border */
+    box-shadow: 1px 1px 0px #d4d4d4; /* Simple shadow for depth */
+    transition: background-color var(--transition-standard),
+                color var(--transition-standard),
+                border-color var(--transition-standard),
+                box-shadow var(--transition-standard); /* Smooth theme transitions */
+}
+
+/* Dark mode styles for <kbd> */
+html.dark kbd {
+    background-color: #555555; /* Darker background */
+    color: #cccccc; /* Lighter text */
+    border-color: #666666; /* Darker border */
+    box-shadow: 1px 1px 0px #666666; /* Adjusted shadow */
+}
+
+/* --- 3. LAYOUT & GRID --- */
+
+/* General purpose container */
+.container {
+    width: 100%;                /* Full width */
+    max-width: 64rem;           /* Max width constraint (1024px) */
+    margin-left: auto;          /* Center horizontally */
+    margin-right: auto;         /* Center horizontally */
+    padding-left: var(--space-4); /* Horizontal padding */
+    padding-right: var(--space-4);/* Horizontal padding */
+}
+
+/* Main content container, often slightly narrower than .container */
+.main-container {
+    width: 100%;                /* Full width */
+    max-width: 48rem;           /* Reduced max width constraint (768px, was 56rem/896px) */
+    margin-left: auto;          /* Center horizontally */
+    margin-right: auto;         /* Center horizontally */
+    padding: var(--space-12) var(--space-4); /* Vertical and horizontal padding */
+}
+
+/* Base card styling */
+.card {
+    border: var(--border-width-base) solid var(--color-border-base); /* Thick border */
+    background-color: var(--color-bg-alt); /* Alternative background */
+    border-radius: var(--radius-xl);       /* Large border radius */
+    margin-bottom: var(--space-8);         /* Reduced spacing below card (was space-12) */
+    padding: var(--space-4);               /* Reduced inner padding (was space-6) */
+    transition: border-color var(--transition-standard),
+                background-color var(--transition-standard); /* Smooth theme transitions */
+    width: 100%;                           /* Ensure card takes full width of its container */
+    box-sizing: border-box;                /* Include padding/border in width calculation */
+    max-width: 44rem;                      /* Limit card width (704px) */
+    margin-left: auto;                     /* Center horizontally */
+    margin-right: auto;                    /* Center horizontally */
+}
+
+/* Dark mode styles for base card */
+html.dark .card {
+    border-color: var(--color-border-base); /* Use dark mode border color */
+    background-color: var(--color-bg-alt);  /* Use dark mode alt background */
+}
+
+/* Specific background for form, result, loading, and modal content cards */
+.card-form,
+.card-results,
+.card-loading,
+.card-modal-content { /* Apply to multiple card types */
+    background-color: var(--color-bg-alt-2); /* Use second alternative background */
+    transition: background-color var(--transition-standard),
+                border-color var(--transition-standard); /* Smooth theme transitions */
+}
+
+/* Dark mode styles for form, result, loading, and modal cards */
+html.dark .card-form,
+html.dark .card-results,
+html.dark .card-loading,
+html.dark .card-modal-content {
+    background-color: var(--color-bg-alt-2); /* Use dark mode second alt background */
+}
+
+/* Error state card styling */
+.card-error {
+    background-color: var(--color-error-light); /* Pale Pink/Red background */
+    border-color: var(--color-border-error);    /* Red border */
+    color: var(--color-text-error);             /* Dark red text */
+    transition: background-color var(--transition-standard),
+                border-color var(--transition-standard),
+                color var(--transition-standard); /* Smooth theme transitions */
+}
+
+/* Dark mode styles for error card */
+html.dark .card-error {
+    background-color: var(--color-error-bg-dark); /* Darker, transparent red background */
+    border-color: var(--color-border-error);      /* Darker red border */
+    color: var(--color-text-error);               /* Lighter red text */
+}
+
+/* --- 4. TYPOGRAPHY --- */
+/* Note: Most typography is handled by base styles and component-specific styles. */
+/* This section primarily contains responsive visibility helpers. */
+
+/* Utility to hide elements completely */
+.hidden {
+    display: none;
+}
+
+/* Hide element only on small screens (becomes inline by default at the 'sm' breakpoint) */
+.sm-hidden {
+    display: none;
+}
+
+@media (min-width: 640px) { /* 'sm' breakpoint */
+    .sm-hidden {
+        display: inline; /* Show element as inline */
+    }
+    .sm-inline { /* Utility to explicitly set display: inline at 'sm' breakpoint */
+        display: inline;
+    }
+    /* Hide elements that should only appear on medium screens and up */
+    .hidden.md-block {
+        display: none;
+    }
+}
+
+@media (min-width: 768px) { /* 'md' breakpoint */
+    /* Show elements intended for medium screens and up as block */
+    .hidden.md-block {
+        display: block;
+    }
+}
+
+/* --- 5. COMPONENT STYLES --- */
+
+/* Header Component */
+.app-header {
+    position: sticky; /* Keep header fixed at the top during scroll */
+    top: 0;
+    z-index: var(--z-50); /* Ensure header stays above most content */
+    /* Semi-transparent background with blur effect */
+    background-color: rgba(243, 245, 247, 0.85); /* Light theme background with opacity (using --color-bg-alt) */
+    backdrop-filter: blur(4px);                  /* Apply background blur */
+    -webkit-backdrop-filter: blur(4px);          /* Safari prefix for backdrop-filter */
+    border-bottom: var(--border-width-base) solid var(--color-border-base); /* Bottom border */
+    transition: background-color var(--transition-standard), border-color var(--transition-standard); /* Smooth theme transitions */
+}
+
+/* Dark mode styles for header */
+html.dark .app-header {
+    background-color: rgba(var(--color-dark-bg-base-rgb), 0.85); /* Dark theme background with opacity */
+    border-bottom-color: var(--color-border-base); /* Use dark mode border color */
+}
+
+/* Content wrapper within the header */
+.header-content {
+    display: flex;              /* Use flexbox for layout */
+    justify-content: space-between; /* Space out logo/title and nav */
+    align-items: center;        /* Vertically align items */
+    height: 4rem;               /* Fixed height for the header */
+}
+
+/* Header title/logo link */
+.header-title a {
+    font-size: 1.5rem;          /* Title font size */
+    font-weight: 800;           /* Extra bold weight */
+    letter-spacing: -0.05em;    /* Tighten letter spacing */
+    color: var(--color-text-base); /* Use base text color */
+    transition: opacity var(--transition-fast); /* Smooth hover transition */
+}
+
+.header-title a:hover {
+    opacity: 0.8;               /* Slightly fade on hover */
+    text-decoration: none;      /* Ensure no underline on hover */
+}
+
+/* Style part of the title with primary color */
+.header-title .title-primary {
+    color: var(--color-primary);
+}
+
+/* Override title-primary color in dark theme */
+html.dark .header-title .title-primary {
+    color: #B3524A; /* Coral Red color for dark theme */
+}
+
+/* Navigation links container */
+.header-nav {
+    display: flex;              /* Use flexbox for layout */
+    align-items: center;        /* Vertically align nav items */
+    gap: var(--space-2);        /* Spacing between nav items */
+    flex-wrap: wrap;            /* Allow items to wrap on smaller screens */
+    justify-content: flex-end;  /* Align items to the right */
+}
+
+/* Styling for individual nav links and buttons */
+.header-nav a,
+.header-nav button {
+    color: var(--color-text-muted); /* Use muted text color */
+    transition: color var(--transition-fast), background-color var(--transition-fast); /* Smooth transitions */
+    display: inline-flex;       /* Use inline-flex for alignment with icons */
+    align-items: center;        /* Vertically align text and icon */
+    gap: var(--space-1);        /* Space between icon and text */
+    font-size: 0.875rem;        /* Slightly smaller font size */
+    font-weight: 500;           /* Medium weight */
+    padding: var(--space-1);    /* Padding for click area */
+    border-radius: var(--radius-base); /* Rounded corners */
+    white-space: nowrap;        /* Prevent text wrapping */
+}
+
+/* Hover state for nav links/buttons */
+.header-nav a:hover,
+.header-nav button:not(:disabled):hover { /* Exclude disabled buttons */
+    color: var(--color-primary); /* Change text color to primary on hover */
+    text-decoration: none;      /* Ensure no underline */
+    background-color: var(--color-transparent-light); /* Subtle background highlight */
+}
+
+/* Dark mode hover state for nav links/buttons */
+html.dark .header-nav a:hover,
+html.dark .header-nav button:not(:disabled):hover {
+    background-color: var(--color-transparent-dark); /* Subtle background highlight for dark mode */
+}
+
+/* Size and alignment for icons within nav items */
+.header-nav svg {
+    width: 1rem;        /* Icon width */
+    height: 1rem;       /* Icon height */
+    flex-shrink: 0;     /* Prevent icon from shrinking */
+}
+
+/* Separator element within the navigation (e.g., before language/theme toggles) */
+.header-nav .nav-separator {
+    border-left: 1px solid var(--color-border-muted); /* Vertical line separator */
+    padding-left: var(--space-3); /* Space after the separator */
+    margin-left: var(--space-2);  /* Space before the separator */
+    display: flex;              /* Use flex for alignment */
+    align-items: center;        /* Vertically align items within */
+    gap: var(--space-1);        /* Space between items after separator */
+    transition: border-color var(--transition-standard); /* Smooth theme transition */
+}
+
+/* Dark mode style for nav separator */
+html.dark .header-nav .nav-separator {
+    border-left-color: var(--color-border-base); /* Use dark mode border color */
+}
+
+/* Separator specifically for language buttons */
+.header-nav .nav-separator .lang-separator {
+    color: var(--color-text-subtle); /* Use subtle text color */
+    transition: color var(--transition-standard); /* Smooth theme transition */
+    font-size: 0.875rem;        /* Match nav item font size */
+    padding: 0 var(--space-1);  /* Small horizontal padding */
+}
+
+/* Language Switcher Buttons */
+.lang-button {
+    font-size: 0.875rem;    /* Match nav item font size */
+    font-weight: 500;       /* Medium weight */
+    padding: var(--space-1); /* Padding for click area */
+    border-radius: var(--radius-base); /* Rounded corners */
+    color: var(--color-text-muted); /* Muted text color */
+    transition: background-color var(--transition-fast),
+                color var(--transition-fast),
+                font-weight var(--transition-fast); /* Smooth transitions */
+}
+
+/* Style for the currently active/selected language button */
+.lang-button:disabled { /* Using disabled state to mark the active language */
+    opacity: 1 !important;          /* Override default disabled opacity */
+    cursor: default !important;     /* Use default cursor */
+    font-weight: 700;               /* Bold weight for active language */
+    color: var(--color-primary);    /* Use primary color for active language */
+}
+
+/* Dark mode style for active language button */
+html.dark .lang-button:disabled {
+    color: var(--color-accent-dark); /* Use dark mode accent color */
+}
+
+/* Hover state for non-active language buttons */
+.lang-button:not(:disabled):hover {
+    background-color: rgba(0, 0, 0, 0.08); /* Subtle background highlight */
+    color: var(--color-text-base);        /* Use base text color on hover */
+}
+
+/* Dark mode hover state for non-active language buttons */
+html.dark .lang-button:not(:disabled):hover {
+    background-color: rgba(255, 255, 255, 0.08); /* Subtle background highlight for dark mode */
+    color: var(--color-text-inverted);          /* Use inverted text color on hover */
+}
+
+/* Alternative way to mark active language (if not using :disabled) */
+.lang-button.is-active-lang {
+    font-weight: 700;           /* Bold weight */
+    color: var(--color-primary);/* Primary color */
+}
+
+html.dark .lang-button.is-active-lang {
+    color: var(--color-accent-dark); /* Dark mode accent color */
+}
+
+/* Dark Mode Toggle Button Logic */
+/* Hide sun icon by default (in light mode) */
+#sunIcon {
+    display: none;
+}
+/* Show moon icon by default (in light mode) */
+#moonIcon {
+    display: block;
+}
+/* In dark mode, show sun icon */
+html.dark #sunIcon {
+    display: block;
+}
+/* In dark mode, hide moon icon */
+html.dark #moonIcon {
+    display: none;
+}
+
+/* Hero Section Component */
+.hero-section {
+    margin-bottom: var(--space-12); /* Space below the hero section */
+}
+
+.hero-content {
+    position: relative;     /* Establish positioning context for icons */
+    width: 100%;            /* Full width */
+    margin-left: auto;      /* Center horizontally */
+    margin-right: auto;     /* Center horizontally */
+    display: flex;          /* Use flexbox for layout */
+    flex-direction: column; /* Stack title and description vertically */
+    justify-content: center;/* Center content vertically */
+    align-items: center;    /* Center content horizontally */
+    text-align: center;     /* Center text */
+}
+
+/* Main title in the hero section */
+.hero-title {
+    font-size: 2.25rem;     /* Large font size */
+    font-weight: 800;       /* Extra bold weight */
+    letter-spacing: -0.05em;/* Tighten letter spacing */
+    margin-bottom: var(--space-4); /* Space below title */
+    color: var(--color-text-base); /* Use base text color */
+    line-height: 1.25;      /* Adjust line height */
+}
+
+/* Description text in the hero section */
+.hero-description {
+    color: var(--color-text-muted); /* Use muted text color */
+    font-size: 1.125rem;    /* Slightly larger than base font size */
+    max-width: 48rem;       /* Limit line length for readability */
+    margin-left: auto;      /* Center horizontally */
+    margin-right: auto;     /* Center horizontally */
+    line-height: 1.625;     /* Generous line height for readability */
+}
+
+/* Decorative icons positioned absolutely within the hero section */
+.hero-icon {
+    height: auto;           /* Maintain aspect ratio */
+    width: 4rem;            /* Icon size */
+    flex-shrink: 0;         /* Prevent shrinking */
+    padding: var(--space-2);/* Padding around icon */
+    position: absolute;     /* Absolute positioning relative to .hero-content */
+    opacity: 0.8;           /* Slight transparency */
+    pointer-events: none;   /* Prevent icons from interfering with interaction */
+    z-index: -1;            /* Position behind text content */
+}
+
+/* Style the path/stroke of the SVG icons */
+.hero-icon path {
+    stroke: var(--color-border-base); /* Use base border color for stroke */
+    transition: stroke var(--transition-standard),
+                fill var(--transition-standard); /* Smooth theme transition */
+}
+
+/* Dark mode style for hero icon stroke */
+html.dark .hero-icon path {
+    stroke: var(--color-border-dark-mode); /* Use dark mode border color */
+    opacity: 0.7;                         /* Slightly more transparent */
+}
+
+/* Style the fill of the hero icons */
+.hero-icon-left path[fill] {
+    fill: var(--hero-icon-left-fill); /* Use variable for left icon fill */
+}
+
+.hero-icon-right path[fill] {
+    fill: var(--hero-icon-right-fill); /* Use variable for right icon fill */
+}
+
+/* Positioning for the left hero icon */
+.hero-icon-left {
+    left: 0;
+    top: 0;
+    transform: translateX(-50%) translateY(-25%); /* Position off-center */
+}
+
+/* Positioning for the right hero icon */
+.hero-icon-right {
+    right: 0;
+    bottom: 0;
+    transform: translateX(50%) translateY(25%); /* Position off-center */
+}
+
+/* Text highlighting effect */
+.highlight-text {
+    position: relative;     /* Establish positioning context for pseudo-element */
+    display: inline-block;  /* Ensure it behaves like an inline element but allows positioning */
+}
+
+/* The highlight pseudo-element itself */
+.highlight-text::after {
+    content: "";            /* Required for pseudo-elements */
+    position: absolute;     /* Position relative to .highlight-text */
+    bottom: 0.1em;          /* Position slightly above the baseline */
+    left: 0;                /* Align to the left edge */
+    width: 100%;            /* Span the full width of the text */
+    height: 0.3em;          /* Initial height of the highlight */
+    background-color: rgba(var(--color-coral-light-rgb, 215, 94, 83), 0.3); /* Semi-transparent coral-light color */
+    z-index: -1;            /* Position behind the text */
+    transition: height var(--transition-fast), background-color var(--transition-standard); /* Smooth transitions */
+}
+
+/* Increase highlight height on hover */
+.highlight-text:hover::after {
+    height: 0.6em;
+}
+
+/* Dark mode style for text highlight */
+html.dark .highlight-text::after {
+    background-color: rgba(var(--color-teal-primary-rgb, 5, 124, 133), 0.3); /* Use primary teal color with transparency */
+}
+
+/* Form Elements */
+/* Container for a single form field group (label, input, warnings) */
+.form-group {
+    margin-bottom: var(--space-6); /* Space below the group */
+    position: relative;           /* Positioning context for potential absolute elements */
+}
+
+/* Add padding if a warning message is present */
+.form-group.has-warning {
+    padding-bottom: 0.5rem; /* Ensure space for warning message below */
+}
+
+/* Container for arranging form elements horizontally (on larger screens) */
+.form-row {
+    display: flex;
+    flex-direction: column; /* Default to vertical stacking */
+    gap: var(--space-4);    /* Space between elements in the row */
+}
+
+/* Ensure form takes full width */
+#ingestForm {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+/* Styling for fieldsets used to group form options */
+fieldset.form-options {
+    padding: var(--space-5) 0 0 0; /* Padding above options */
+    margin: 0;                    /* Remove default margin */
+    border: none;                 /* Remove default border */
+}
+
+/* Container for options layout (becomes grid on larger screens) */
+.form-options-row {
+    display: flex;          /* Default to flex */
+    flex-direction: column; /* Stack vertically by default */
+    gap: var(--space-4);    /* Space between option groups */
+}
+
+/* Style for form field labels */
+.form-label {
+    display: block;         /* Ensure label takes full width */
+    font-size: 0.875rem;    /* Slightly smaller font size */
+    font-weight: 500;       /* Medium weight */
+    color: var(--color-text-muted); /* Muted text color */
+    margin-bottom: var(--space-1); /* Space below label */
+    transition: color var(--transition-standard); /* Smooth theme transition */
+}
+
+/* Dark mode style for form labels */
+html.dark .form-label {
+    color: var(--color-text-base); /* Use base text color in dark mode */
+}
+
+/* Helper class for flex items needing relative positioning */
+.flex-grow.relative {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Checkbox Styles */
+/* Container for a single checkbox */
+.checkbox-container {
+    margin-bottom: var(--space-2); /* Space below checkbox */
+}
+
+/* Label associated with the custom checkbox */
+.form-checkbox-label {
+    display: inline-flex;   /* Align checkbox and text */
+    align-items: center;    /* Vertically center items */
+    gap: var(--space-2);    /* Space between checkbox and text */
+    cursor: pointer;        /* Indicate interactivity */
+    position: relative;     /* Positioning context */
+}
+
+/* Text part of the checkbox label */
+.form-checkbox-label span {
+    color: var(--color-text-muted); /* Muted text color */
+    font-size: 0.875rem;    /* Match label font size */
+    font-weight: 500;       /* Medium weight */
+    user-select: none;      /* Prevent text selection */
+    transition: color var(--transition-standard); /* Smooth theme transition */
+}
+
+/* Dark mode style for checkbox label text */
+html.dark .form-checkbox-label span {
+    color: var(--color-text-base); /* Use base text color in dark mode for consistency */
+}
+
+/* Hover state for checkbox label text */
+.form-checkbox-label:hover span {
+    color: var(--color-text-base); /* Use base text color on hover */
+}
+
+/* Custom checkbox input styling (hides the default checkbox) */
+.form-checkbox {
+    appearance: none;       /* Hide default appearance */
+    display: inline-block;  /* Allow width/height */
+    vertical-align: middle; /* Align with text */
+    height: 1.25rem;        /* Checkbox size */
+    width: 1.25rem;         /* Checkbox size */
+    border: var(--border-width-thin) solid var(--color-border-muted); /* Border */
+    border-radius: 0.25rem; /* Slightly rounded corners */
+    background-color: var(--color-bg-base); /* Base background */
+    cursor: pointer;        /* Indicate interactivity */
+    position: relative;     /* Positioning context for checkmark */
+    transition: background-color var(--transition-standard), border-color var(--transition-standard); /* Smooth transitions */
+    flex-shrink: 0;         /* Prevent shrinking in flex layouts */
+}
+
+/* Dark mode style for custom checkbox */
+html.dark .form-checkbox {
+    border-color: var(--color-border-dark-mode); /* Dark mode border */
+    background-color: var(--color-bg-alt);       /* Dark mode background */
+}
+
+/* Checked state for custom checkbox */
+.form-checkbox:checked {
+    background-color: var(--color-primary); /* Use primary color for background */
+    border-color: var(--color-primary);     /* Use primary color for border */
+    /* SVG checkmark icon (URL encoded) - Kept white fill as it contrasts with Teal */
+    background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3e%3c/svg%3e");
+    background-size: 100% 100%; /* Ensure checkmark fills the box */
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* Focus state for custom checkbox (using :focus-visible polyfill might be needed) */
+.form-checkbox:focus {
+    outline: 2px solid var(--color-focus-ring); /* Use standard focus ring */
+    outline-offset: 2px;
+}
+
+/* Form Field Styles (Input, Select, Date) */
+/* Base styles shared by text input, select, and date fields */
+.input-field,
+.select-field,
+.date-field {
+    border: var(--border-width-base) solid var(--color-border-base); /* Thick border */
+    font-size: 1rem;        /* Base font size */
+    font-weight: 500;       /* Medium weight */
+    padding: var(--space-3) var(--space-4); /* Padding */
+    border-radius: var(--radius-base); /* Base border radius */
+    background-color: #ffffff; /* Default white background */
+    color: var(--color-text-base); /* Base text color */
+    width: 100%;            /* Full width by default */
+    height: 3.5rem;         /* Fixed height for main input */
+    box-sizing: border-box; /* Include padding/border in size */
+    transition: border-color var(--transition-standard),
+                box-shadow var(--transition-standard),
+                background-color var(--transition-standard),
+                color var(--transition-standard); /* Smooth transitions */
+}
+
+/* Dark mode styles for input, select, date fields */
+html.dark .input-field,
+html.dark .select-field,
+html.dark .date-field {
+    background-color: var(--color-bg-alt); /* Dark background (using bg-alt dark) */
+    border-color: var(--color-border-dark-mode); /* Dark border */
+    color: var(--color-text-base); /* Light text (using text-base dark) */
+}
+
+/* Ensure select options have correct colors in dark mode */
+html.dark select.select-field option {
+    background-color: var(--color-bg-alt); /* Match field background */
+    color: var(--color-text-base); /* Match field text color */
+}
+
+/* Focus state for input, select, date fields */
+.input-field:focus,
+.select-field:focus,
+.date-field:focus {
+    outline: none; /* Remove default outline */
+    border-color: var(--color-focus-ring); /* Change border color to focus ring color */
+    box-shadow: 0 0 0 1px var(--color-focus-ring); /* Add inner shadow as focus indicator */
+}
+
+/* Warning Elements (e.g., for invalid input) */
+/* Container for input warning messages */
+.input-warning {
+    margin-top: var(--space-2); /* Space above warning */
+    padding: var(--space-3);    /* Padding inside warning */
+    border-radius: var(--radius-base); /* Rounded corners */
+    background-color: #fbf6e3; /* Pale Yellow/Beige background */
+    border: 1px solid #efd877; /* Yellow border */
+    color: #9A7B05;           /* Darker gold for better contrast */
+    display: flex;              /* Use flex for icon alignment */
+    align-items: center;        /* Vertically center icon and text */
+    gap: var(--space-2);        /* Space between icon and text */
+    font-size: 0.875rem;        /* Slightly smaller font size */
+    animation: fadeIn 0.3s ease-in-out; /* Fade-in animation */
+}
+
+/* Dark mode style for input warnings */
+html.dark .input-warning {
+    background-color: rgba(196, 168, 10, 0.2); /* Darker, transparent yellow */
+    border-color: rgba(196, 168, 10, 0.5);    /* Semi-transparent border */
+    color: #efd877;                          /* Lighter yellow text for better contrast */
+}
+
+/* Icon used within input warnings */
+.warning-icon {
+    flex-shrink: 0;     /* Prevent icon shrinking */
+    width: 1.25rem;     /* Icon size */
+    height: 1.25rem;    /* Icon size */
+    color: #9A7B05;     /* Darker gold for better contrast */
+}
+
+/* Dark mode style for warning icon */
+html.dark .warning-icon {
+    color: #efd877;     /* Lighter yellow icon color for better contrast */
+}
+
+/* Button specifically styled for use within warning messages */
+.button-warning {
+    margin-left: auto;      /* Push button to the right */
+    background-color: var(--color-accent); /* Use accent color variable */
+    color: var(--color-white); /* White text for better contrast */
+    font-weight: 500;       /* Medium weight */
+    padding: var(--space-1) var(--space-2); /* Padding */
+    border-radius: 0.25rem; /* Smaller radius */
+    transition: background-color var(--transition-fast), color var(--transition-fast); /* Smooth hover transition */
+    border: 1px solid var(--color-accent-hover); /* Darker accent border */
+}
+
+.button-warning:hover {
+    background-color: var(--color-accent-hover); /* Darker accent on hover */
+}
+
+/* Dark mode style for warning button */
+html.dark .button-warning {
+    background-color: var(--color-accent-dark); /* Use dark accent color variable */
+    color: var(--color-white); /* White text for better contrast */
+    border-color: var(--color-accent-dark-hover); /* Darker accent border */
+}
+
+html.dark .button-warning:hover {
+    background-color: var(--color-accent-dark-hover); /* Darker accent on hover */
+}
+
+/* Select (Dropdown) Styles */
+/* Wrapper for select element to allow custom arrow */
+.select-wrapper {
+    position: relative;     /* Positioning context for arrow */
+    display: inline-block;  /* Allow width adjustment */
+    width: 100%;            /* Full width by default */
+}
+
+/* Specific styles for select fields (overriding base .input-field styles where needed) */
+.select-field {
+    appearance: none;       /* Hide default dropdown arrow */
+    padding-right: var(--space-10); /* Add padding to prevent text overlapping custom arrow */
+    border-width: var(--border-width-thin); /* Use thin border */
+    font-size: 0.875rem;    /* Smaller font size */
+    padding-top: var(--space-2); /* Adjust vertical padding */
+    padding-bottom: var(--space-2);
+    padding-left: var(--space-3);
+    line-height: 1.25rem;   /* Adjust line height */
+    /* Height is adjusted later for specific instances */
+}
+
+/* Custom dropdown arrow */
+.select-arrow {
+    position: absolute;     /* Position relative to .select-wrapper */
+    top: 50%;               /* Vertically center */
+    right: var(--space-3);  /* Position on the right */
+    transform: translateY(-50%); /* Precise vertical centering */
+    display: flex;          /* Ensure proper rendering */
+    align-items: center;    /* Vertically center icon */
+    pointer-events: none;   /* Allow clicks to pass through to the select */
+    z-index: 1;             /* Ensure arrow is above select */
+}
+
+.select-arrow svg {
+    width: 1rem;            /* Arrow icon size */
+    height: 1rem;           /* Arrow icon size */
+    color: var(--color-text-muted); /* Muted color */
+    transition: color var(--transition-standard); /* Smooth theme transition */
+}
+
+/* Dark mode style for select arrow */
+html.dark .select-arrow svg {
+    color: var(--color-text-base); /* Use base text color in dark mode for consistency */
+}
+
+/* Date Field Styles */
+/* Specific styles for date input fields */
+.date-field {
+    appearance: none;       /* Try to remove default appearance (browser support varies) */
+    border-width: var(--border-width-thin); /* Use thin border */
+    font-size: 0.875rem;    /* Smaller font size */
+    padding: var(--space-2) var(--space-3); /* Adjust padding */
+    line-height: 1.25rem;   /* Adjust line height */
+    background-color: #ffffff; /* Ensure white background */
+    /* Height is adjusted later */
+}
+
+/* Dark mode style for date fields */
+html.dark .date-field {
+    background-color: var(--color-bg-alt); /* Dark background (using bg-alt dark) */
+}
+
+/* Style the calendar picker indicator (mainly for WebKit browsers) */
+input[type="date"]::-webkit-calendar-picker-indicator {
+    cursor: pointer;        /* Indicate interactivity */
+    opacity: 0.6;           /* Slight transparency */
+    filter: invert(var(--date-picker-invert)); /* Invert icon colors based on theme */
+    margin-left: var(--space-2); /* Space before icon */
+    transition: opacity var(--transition-fast); /* Smooth hover transition */
+}
+
+/* Increase opacity on hover */
+input[type="date"]:hover::-webkit-calendar-picker-indicator {
+    opacity: 0.8;
+}
+
+/* Adjust width and height for date fields to be more appropriate */
+.start-date-container .date-field,
+.end-date-container .date-field {
+    width: auto;            /* Allow shrinking to content size */
+    min-width: 150px;       /* Minimum width */
+    max-width: 100%;        /* Prevent overflow */
+    height: 2.5rem;         /* Reduced height */
+    padding-top: var(--space-1); /* Adjust vertical padding */
+    padding-bottom: var(--space-1);
+}
+
+/* Adjust width for the interval select dropdown */
+.interval-container .select-wrapper {
+    width: auto;            /* Allow shrinking */
+    min-width: 120px;       /* Minimum width */
+    max-width: 100%;        /* Prevent overflow */
+}
+
+.interval-container .select-field {
+    height: 2.5rem;         /* Match date field height */
+    padding-top: var(--space-1); /* Adjust vertical padding */
+    padding-bottom: var(--space-1);
+}
+
+/* Ensure parent containers adapt correctly */
+.start-date-container,
+.end-date-container,
+.interval-container {
+    display: flex;
+    flex-direction: column; /* Stack label and input vertically */
+    align-items: flex-start; /* Align items to the start */
+}
+
+/* Ensure only the main URL input retains its original larger height */
+#youtubeUrl {
+    height: 3.5rem; /* Maintain original height */
+}
+
+/* Responsive adjustments for date/interval fields on small screens */
+@media (max-width: 767px) { /* Below 'md' breakpoint */
+    .start-date-container .date-field,
+    .end-date-container .date-field,
+    .interval-container .select-wrapper {
+        width: 100%; /* Force full width on small screens */
+    }
+}
+
+/* Buttons */
+/* Base button styles */
+.button {
+    display: inline-flex;   /* Use inline-flex for alignment and inline behavior */
+    align-items: center;    /* Vertically center content */
+    justify-content: center;/* Horizontally center content */
+    padding: var(--space-3) var(--space-6); /* Default padding */
+    border-radius: var(--radius-base); /* Base border radius */
+    font-weight: 600;       /* Semi-bold weight */
+    font-size: 1rem;        /* Base font size */
+    text-align: center;     /* Ensure text is centered */
+    cursor: pointer;        /* Indicate interactivity */
+    transition: background-color var(--transition-fast),
+                border-color var(--transition-fast),
+                transform var(--transition-fast),
+                box-shadow var(--transition-fast),
+                color var(--transition-standard); /* Smooth transitions for various properties */
+    border: var(--border-width-base) solid var(--color-border-base); /* Base border */
+    position: relative;     /* Needed for potential pseudo-elements or absolute children */
+    z-index: 1;             /* Ensure button content is above potential background elements */
+    white-space: nowrap;    /* Prevent text wrapping */
+}
+
+/* Small button variant */
+.button-sm {
+    padding: var(--space-1) var(--space-3); /* Reduced padding */
+    font-size: 0.875rem;    /* Smaller font size */
+    border-width: var(--border-width-thin); /* Thinner border */
+    gap: var(--space-1);    /* Reduced gap for icons */
+}
+
+/* Example button variant (specific styling) */
+.button-example {
+    padding: var(--space-2) var(--space-6); /* Increased padding for larger size */
+    font-size: 1rem;        /* Increased font size */
+    border-width: var(--border-width-base); /* Standard border width */
+    min-width: 120px;       /* Ensure minimum width for better visibility */
+}
+
+/* Wrapper element to create the button shadow effect */
+.button-shadow {
+    position: relative;     /* Positioning context for the button */
+    border-radius: var(--radius-base); /* Match button radius */
+    display: inline-block;  /* Allow inline behavior */
+    /* Add padding to the wrapper to make space for the shadow */
+    padding-bottom: var(--shadow-offset-y);
+    padding-right: var(--shadow-offset-x);
+    line-height: 0;         /* Prevent wrapper from adding extra height */
+    vertical-align: top;    /* Align properly with other inline elements */
+}
+
+/* Apply the actual shadow to the button inside the wrapper */
+.button-shadow > .button {
+    box-shadow: var(--shadow-offset-x) var(--shadow-offset-y) 0px var(--color-shadow-base); /* Apply shadow using variables */
+    height: 100%;           /* Ensure button fills wrapper height */
+    width: 100%;            /* Ensure button fills wrapper width */
+    transition: transform var(--transition-fast),
+                box-shadow var(--transition-fast),
+                background-color var(--transition-fast),
+                border-color var(--transition-fast),
+                color var(--transition-standard); /* Include transform and shadow in transitions */
+}
+
+/* Dark mode shadow for the button */
+html.dark .button-shadow > .button {
+    box-shadow: var(--shadow-offset-x) var(--shadow-offset-y) 0px var(--color-shadow-dark-mode); /* Use dark mode shadow color */
+}
+
+/* Active (pressed) state for shadowed buttons */
+.button-shadow > .button:active {
+    /* Move the button slightly down and right */
+    transform: translate(var(--shadow-active-offset-x), var(--shadow-active-offset-y));
+    /* Reduce the shadow size to simulate pressing */
+    box-shadow: calc(var(--shadow-offset-x) - var(--shadow-active-offset-x))
+                calc(var(--shadow-offset-y) - var(--shadow-active-offset-y))
+                0px var(--color-shadow-base);
+}
+
+/* Dark mode active state shadow */
+html.dark .button-shadow > .button:active {
+    box-shadow: calc(var(--shadow-offset-x) - var(--shadow-active-offset-x))
+                calc(var(--shadow-offset-y) - var(--shadow-active-offset-y))
+                0px var(--color-shadow-dark-mode);
+}
+
+/* Prevent transform/shadow changes on disabled shadowed buttons */
+.button-shadow > .button:disabled {
+    transform: none !important; /* Prevent movement */
+    box-shadow: var(--shadow-offset-x) var(--shadow-offset-y) 0px var(--color-shadow-base) !important; /* Keep original shadow */
+}
+
+html.dark .button-shadow > .button:disabled {
+    box-shadow: var(--shadow-offset-x) var(--shadow-offset-y) 0px var(--color-shadow-dark-mode) !important; /* Keep original dark shadow */
+}
+
+/* Ensure content inside the button is above the shadow */
+.button-shadow > .button > * {
+    position: relative;
+    z-index: 1;
+}
+
+/* Button Variants (Colors & Styles) */
+/* Primary action button */
+.button-primary {
+    background-color: var(--color-accent); /* Use accent color (Teal) */
+    color: var(--color-white);             /* White text for contrast */
+    border-color: var(--color-border-base); /* Base border color */
+}
+
+.button-primary:hover {
+    background-color: var(--color-accent-hover); /* Darken accent on hover (Darker Teal) */
+}
+
+.button-primary:active {
+    background-color: var(--color-accent-active); /* Further darken on active (Light Teal) */
+}
+
+/* Dark mode primary button */
+html.dark .button-primary {
+    background-color: var(--color-accent-dark); /* Use dark mode accent (Coral Red) */
+    color: var(--color-white);                  /* White text */
+    border-color: var(--color-border-dark-mode);/* Dark mode border */
+}
+
+html.dark .button-primary:hover {
+    background-color: var(--color-accent-dark-hover); /* Darken dark accent on hover (Darker Coral Red) */
+}
+
+html.dark .button-primary:active {
+    background-color: var(--color-accent-dark); /* Use base dark accent on active (Coral Red) */
+}
+
+/* Example button variant */
+.button-example {
+    background-color: var(--color-bg-button-example); /* Specific background (Light Gray) */
+    color: #555555;                             /* Specific text color (Dark Gray) */
+    border-color: var(--color-border-base);      /* Base border */
+}
+
+.button-example:hover {
+    background-color: var(--color-accent);       /* Change to accent on hover (Teal) */
+    color: #ffffff;             /* White text color on hover */
+}
+
+/* Ensure primary button within shadow wrapper has correct height */
+.button-shadow > .button-primary {
+    height: 3.5rem;         /* Match input field height */
+    box-sizing: border-box; /* Include border in height */
+}
+
+/* Dark mode example button */
+html.dark .button-example {
+    background-color: var(--color-bg-button-example); /* Dark mode example bg (Dark Gray) */
+    color: #e4e4e4;                             /* Light text */
+    border-color: var(--color-border-dark-mode); /* Dark mode border */
+}
+
+html.dark .button-example:hover {
+    background-color: var(--color-accent-dark); /* Dark mode accent on hover (Coral Red) */
+    color: #ffffff;                           /* White text on hover */
+}
+
+/* Secondary action button */
+.button-action {
+    background-color: var(--color-bg-button-action); /* Specific background (Teal) */
+    color: var(--color-white);                  /* White text for contrast */
+    border-color: var(--color-border-base);     /* Base border */
+}
+
+.button-action:hover {
+    background-color: var(--color-bg-button-action-hover); /* Darken on hover (Darker Teal) */
+}
+
+/* Dark mode action button */
+html.dark .button-action {
+    background-color: var(--color-bg-button-action); /* Dark mode action bg (Coral Red) */
+    color: var(--color-white);                  /* White text for contrast */
+    border-color: var(--color-border-dark-mode); /* Dark mode border */
+}
+
+html.dark .button-action:hover {
+    background-color: var(--color-bg-button-action-hover); /* Darken dark action bg on hover (Darker Coral Red) */
+}
+
+/* Tertiary/Subtle button style */
+.button-secondary {
+    background-color: #e4e4e4; /* Light gray background */
+    color: #555555;         /* Dark gray text */
+    border: none;           /* No border */
+    padding: var(--space-2) var(--space-4); /* Custom padding */
+    font-size: 0.875rem;    /* Smaller font size */
+    border-radius: var(--radius-base); /* Base radius */
+}
+
+.button-secondary:hover {
+    background-color: #cccccc; /* Darken gray on hover */
+}
+
+/* Dark mode secondary button */
+html.dark .button-secondary {
+    background-color: #555555; /* Darker gray background */
+    color: #e4e4e4;         /* Light gray text */
+}
+
+html.dark .button-secondary:hover {
+    background-color: #666666; /* Darken gray on hover */
+}
+
+/* Danger action button (e.g., delete, clear) */
+.button-danger {
+    color: #bf1515;         /* Red text color */
+    font-size: 0.875rem;    /* Smaller font size */
+    font-weight: 500;       /* Medium weight */
+    padding: var(--space-1); /* Minimal padding */
+    background: none;       /* No background */
+    border: none;           /* No border */
+}
+
+.button-danger:hover:not(:disabled) {
+    color: #c82929; /* Darken red on hover */
+}
+
+/* Dark mode danger button */
+html.dark .button-danger {
+    color: #e99f9f; /* Lighter red text */
+}
+
+html.dark .button-danger:hover:not(:disabled) {
+    color: #fbf2f2; /* Further lighten red on hover */
+}
+
+/* Retry button, often used in error states */
+.button-retry {
+    background-color: #ffffff; /* White background */
+    border: var(--border-width-thin) solid var(--color-border-error); /* Red border */
+    color: var(--color-text-error); /* Red text */
+    padding: var(--space-1) var(--space-3); /* Small padding */
+    border-radius: var(--radius-base); /* Base radius */
+}
+
+.button-retry:hover {
+    background-color: #fbf2f2; /* Very light red background on hover */
+}
+
+/* Dark mode retry button */
+html.dark .button-retry {
+    background-color: #555555; /* Dark red background (using dark gray) */
+    border-color: var(--color-border-error);     /* Darker red border */
+    color: var(--color-text-error);            /* Light red text */
+}
+
+html.dark .button-retry:hover {
+    background-color: #666666; /* Slightly lighter dark red on hover (using darker gray) */
+}
+
+/* Disabled state for all buttons */
+.button:disabled,
+button:disabled { /* Apply to base button element as well */
+    opacity: 0.6;           /* Reduce opacity */
+    cursor: not-allowed;    /* Indicate non-interactive state */
+}
+
+/* Button Loader (Spinner inside button) */
+/* Container for the loader icon and text */
+.button-loader {
+    display: none;          /* Hidden by default */
+    align-items: center;    /* Vertically center spinner and text */
+    gap: var(--space-2);    /* Space between spinner and text */
+}
+
+/* Spinning animation for the loader SVG */
+.button-loader svg {
+    animation: spin 1s linear infinite; /* Apply spin animation */
+    height: 1.25rem;        /* Loader size */
+    width: 1.25rem;         /* Loader size */
+    color: inherit;         /* Inherit color from button */
+}
+
+/* Style parts of the SVG spinner for visual effect */
+.button-loader svg circle { /* Track part of the spinner */
+    opacity: 0.25;
+}
+.button-loader svg path { /* Moving part of the spinner */
+    opacity: 0.75;
+}
+
+/* Button Feedback (e.g., "Copied!") */
+/* Pseudo-element used to display feedback text */
+.action-button.feedback-active::after {
+    content: attr(data-feedback-text); /* Get text from data attribute */
+    position: absolute;     /* Position relative to the button */
+    bottom: 115%;           /* Position above the button */
+    left: 50%;              /* Center horizontally */
+    transform: translateX(-50%); /* Precise horizontal centering */
+    background-color: #88b12b; /* Green background for success */
+    color: white;           /* White text */
+    padding: var(--space-1) var(--space-2); /* Padding */
+    border-radius: 4px;     /* Small radius */
+    font-size: 0.75rem;     /* Small font size */
+    font-weight: 500;       /* Medium weight */
+    white-space: nowrap;    /* Prevent wrapping */
+    box-shadow: var(--shadow-base); /* Subtle shadow */
+    z-index: var(--z-10);   /* Ensure feedback is above button */
+    animation: fadeOutFeedback 1.5s forwards; /* Apply fade-out animation */
+    pointer-events: none;   /* Prevent interaction with feedback message */
+}
+
+/* Example Section (for demonstrating button usage) */
+/* Container for the example buttons area */
+.example-section {
+    margin-top: var(--space-5); /* Space above section */
+    padding-top: var(--space-5); /* Padding above buttons */
+    border-top: 1px solid rgba(204, 204, 204, 0.8); /* Subtle top border (using #ccc) */
+    transition: border-color var(--transition-standard); /* Smooth theme transition */
+}
+
+/* Dark mode style for example section border */
+html.dark .example-section {
+    border-top-color: rgba(102, 102, 102, 0.8); /* Darker border (using #666) */
+}
+
+/* Title for the example section */
+.example-title {
+    font-size: 0.875rem;    /* Small font size */
+    color: var(--color-text-muted); /* Muted text color */
+    margin-bottom: var(--space-3); /* Space below title */
+    font-weight: 500;       /* Medium weight */
+    transition: color var(--transition-standard); /* Smooth theme transition */
+}
+
+/* Dark mode style for example title */
+html.dark .example-title {
+    color: var(--color-text-base); /* Use base text color in dark mode for consistency */
+}
+
+/* Container for the example buttons themselves */
+.example-buttons {
+    display: flex;          /* Use flexbox for layout */
+    flex-wrap: wrap;        /* Allow buttons to wrap */
+    gap: var(--space-3);    /* Space between buttons */
+    justify-content: space-between; /* Distribute space */
+}
+
+/* Add margin below shadowed example buttons for better spacing when wrapped */
+.example-buttons .button-shadow {
+    margin-bottom: var(--space-1);
+}
+
+/* Loader Component (Full page or section loader) */
+/* Container for the loader */
+.loader-container {
+    margin-top: var(--space-12); /* Space above loader */
+}
+
+/* Card styling for the loader */
+.loader-card {
+    display: flex;          /* Use flexbox */
+    flex-direction: column; /* Stack spinner and text vertically */
+    align-items: center;    /* Center items horizontally */
+    gap: var(--space-5);    /* Space between spinner and text */
+    padding: var(--space-8); /* Padding inside card */
+}
+
+/* The spinning loader element */
+.loader {
+    border: 5px solid var(--loader-border); /* Base border (track) */
+    border-top: 5px solid var(--loader-top); /* Colored top border (spinner part) */
+    border-radius: 50%;     /* Make it circular */
+    width: 48px;            /* Loader size */
+    height: 48px;           /* Loader size */
+    animation: spin 1s linear infinite; /* Apply spin animation */
+    transition: border-color var(--transition-standard); /* Smooth theme transition */
+}
+
+/* Dark mode style for loader borders */
+html.dark .loader {
+    border-color: var(--loader-border); /* Use dark mode border variable */
+    border-top-color: var(--loader-top); /* Use dark mode top border variable */
+}
+
+/* Container for loader text with pulsing animation */
+.loader-text {
+    animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite; /* Apply pulse animation */
+    text-align: center;     /* Center text */
+}
+
+/* Main status text of the loader */
+.loader-status {
+    font-size: 1.125rem;    /* Larger font size */
+    font-weight: 600;       /* Semi-bold weight */
+    color: var(--color-text-base); /* Base text color */
+    transition: color var(--transition-standard); /* Smooth theme transition */
+}
+
+/* Sub-text or description for the loader */
+.loader-subtext {
+    font-size: 0.875rem;    /* Smaller font size */
+    color: var(--color-text-muted); /* Muted text color */
+    margin-top: var(--space-1); /* Space above subtext */
+    max-width: 20rem;       /* Limit line length */
+    transition: color var(--transition-standard); /* Smooth theme transition */
+}
+
+/* Dark mode style for loader subtext */
+html.dark .loader-subtext {
+    color: var(--color-text-base); /* Use base text color in dark mode for consistency */
+}
+
+/* Error Section Component */
+/* Container for error messages */
+.error-container {
+    margin-top: var(--space-12); /* Space above error section */
+}
+
+/* Card styling specific to errors */
+.error-card {
+    padding: var(--space-4) var(--space-5); /* Reduced padding (was space-5 space-6) */
+    /* Inherits base .card-error styles for background/border/color */
+}
+
+/* Header within the error card */
+.error-header {
+    display: flex;          /* Use flexbox for icon alignment */
+    align-items: center;    /* Vertically center icon and title */
+    margin-bottom: var(--space-2); /* Space below header */
+}
+
+/* Error icon */
+.error-header svg {
+    width: 1.25rem;         /* Icon size */
+    height: 1.25rem;        /* Icon size */
+    margin-right: var(--space-2); /* Space after icon */
+    fill: currentColor;     /* Use text color for fill */
+}
+
+/* Title of the error message */
+.error-title {
+    font-weight: 700;       /* Bold weight */
+    font-size: 1rem;        /* Base font size */
+}
+
+/* Main error message text */
+.error-message {
+    display: block;         /* Ensure it takes full width */
+    font-size: 0.875rem;    /* Smaller font size */
+}
+
+/* Displaying technical error codes */
+.error-code {
+    font-size: 0.75rem;     /* Very small font size */
+    margin-top: var(--space-1); /* Space above code */
+    font-family: var(--font-mono); /* Monospace font */
+    color: var(--color-error-dark-alt); /* Dark red color */
+    transition: color var(--transition-standard); /* Smooth theme transition */
+}
+
+/* Dark mode style for error code */
+html.dark .error-code {
+    color: var(--color-error-light-alt); /* Lighter red color */
+}
+
+/* Suggestions or help text within the error message */
+.error-suggestion {
+    font-size: 0.875rem;    /* Smaller font size */
+    margin-top: var(--space-2); /* Space above suggestion */
+    color: var(--color-error-dark-alt); /* Dark red color */
+    transition: color var(--transition-standard); /* Smooth theme transition */
+}
+
+/* Dark mode style for error suggestion */
+html.dark .error-suggestion {
+    color: var(--color-error-light-alt); /* Lighter red color */
+}
+
+/* Container for action buttons within the error message (e.g., Retry) */
+.error-actions {
+    margin-top: var(--space-4); /* Space above actions */
+    font-size: 0.875rem;    /* Match text size */
+}
+
+/* Results Section Component */
+/* Container for the results display */
+.results-container {
+    margin-top: var(--space-12); /* Space above results */
+}
+
+/* Card styling specific to results */
+.results-card {
+    display: flex;          /* Use flexbox */
+    flex-direction: column; /* Stack content vertically */
+    gap: var(--space-6);    /* Reduced gap between main sections (was space-10) */
+    padding: var(--space-4); /* Reduced padding (was space-6) */
+    /* Inherits base .card-results styles */
+}
+
+/* Header section within the results card */
+.results-header {
+    display: flex;          /* Use flexbox */
+    flex-direction: column; /* Stack title and actions vertically by default */
+    gap: var(--space-3);    /* Space between title and actions */
+    margin-bottom: var(--space-4); /* Space below header */
+}
+
+/* Title for the results section */
+.results-title {
+    font-size: 1.25rem;     /* Larger font size */
+    font-weight: 700;       /* Bold weight */
+    color: var(--color-text-base); /* Base text color */
+    transition: color var(--transition-standard); /* Smooth theme transition */
+}
+
+/* Container for action buttons related to results (e.g., Copy, Download) */
+.results-actions {
+    display: flex;          /* Use flexbox */
+    align-items: center;    /* Vertically center buttons */
+    gap: var(--space-2);    /* Space between buttons */
+    flex-wrap: wrap;        /* Allow buttons to wrap */
+}
+
+/* Box containing informational details about the results */
+.results-info-box {
+    padding: var(--space-4); /* Padding inside box */
+    background-color: var(--color-bg-alt); /* Use alt background */
+    border: var(--border-width-base) solid var(--color-border-base); /* Base border */
+    border-radius: var(--radius-base); /* Base radius */
+    transition: background-color var(--transition-standard), border-color var(--transition-standard); /* Smooth theme transitions */
+}
+
+/* Dark mode style for results info box */
+html.dark .results-info-box {
+    background-color: var(--color-bg-alt); /* Use dark mode alt background */
+    border-color: var(--color-border-base); /* Use dark mode border */
+}
+
+/* Grid layout for displaying key-value information */
+.results-grid {
+    display: grid;
+    grid-template-columns: 1fr; /* Single column by default */
+    gap: var(--space-4);        /* Space between grid items */
+    /* Consider adding columns for wider screens if needed */
+}
+
+/* Label for an information item */
+.results-info-label {
+    color: var(--color-text-muted); /* Muted text color */
+    font-size: 0.875rem;    /* Smaller font size */
+    font-weight: 600;       /* Semi-bold weight */
+    margin-bottom: var(--space-1); /* Space below label */
+    transition: color var(--transition-standard); /* Smooth theme transition */
+}
+
+/* Value of an information item */
+.results-info-value {
+    font-family: var(--font-mono); /* Monospace font for values like IDs or counts */
+    font-size: 0.875rem;    /* Smaller font size */
+    color: var(--color-text-base); /* Base text color */
+    font-weight: 500;       /* Medium weight */
+    word-break: break-all;  /* Break long values like URLs */
+    transition: color var(--transition-standard); /* Smooth theme transition */
+}
+
+/* Badges (used within results info or elsewhere) */
+/* Container for badges */
+.results-badges {
+    display: flex;          /* Use flexbox */
+    flex-wrap: wrap;        /* Allow badges to wrap */
+    gap: var(--space-2);    /* Space between badges */
+    margin-top: var(--space-3); /* Space above badges */
+    align-items: center;    /* Vertically align badges */
+}
+
+/* Fade-in and slide-up animation (used for warnings, potentially other elements) */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px); /* Start slightly lower */
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0); /* End at normal position */
+    }
+}
+
+/* Base badge style */
+.badge {
+    display: inline-flex;   /* Use inline-flex for icon alignment */
+    align-items: center;    /* Vertically center content */
+    vertical-align: middle; /* Align properly with surrounding text */
+    padding: var(--space-1) var(--space-2); /* Padding */
+    background-color: var(--color-gray-200); /* Light gray background */
+    color: var(--color-text-base);         /* Base text color */
+    font-size: 0.75rem;     /* Small font size */
+    font-weight: 500;       /* Medium weight */
+    border-radius: var(--radius-base); /* Base radius */
+    transition: background-color var(--transition-standard),
+                color var(--transition-standard),
+                border-color var(--transition-standard); /* Smooth theme transitions */
+    border: 1px solid transparent; /* Transparent border by default */
+}
+
+/* Icon within a badge */
+.badge svg {
+    width: 0.75rem;         /* Icon size */
+    height: 0.75rem;        /* Icon size */
+    margin-right: var(--space-1); /* Space after icon */
+    color: currentColor;    /* Inherit color from parent */
+}
+
+/* Dark mode base badge style */
+html.dark .badge {
+    background-color: var(--color-bg-muted); /* Use muted background color from dark theme */
+    color: var(--color-text-base);         /* Use base text color from dark theme */
+}
+
+/* Warning badge variant */
+.badge-warning {
+    background-color: var(--color-warning-bg); /* Use warning background variable */
+    color: var(--color-warning-text);        /* Use warning text variable */
+    border: 1px solid var(--color-warning-border); /* Use warning border variable */
+}
+
+/* Subtle badge variant */
+.badge-subtle {
+    background-color: var(--color-gray-100); /* Very light gray background */
+    color: var(--color-gray-700);         /* Medium-dark gray text */
+    border: 1px solid var(--color-gray-300); /* Light border */
+}
+
+html.dark .badge-subtle {
+    background-color: rgba(var(--color-gray-900-rgb), 0.3); /* Darker transparent gray */
+    color: var(--color-gray-400);          /* Lighter gray text */
+    border: 1px solid rgba(var(--color-gray-700-rgb), 0.5); /* Semi-transparent border */
+}
+
+/* Info badge variant */
+.badge-info {
+    background-color: var(--color-teal-bg-light); /* Light teal background */
+    color: var(--color-accent); /* Use accent color (Teal) for text */
+    border: 1px solid var(--color-teal-light); /* Light teal border */
+}
+
+html.dark .badge-info {
+    background-color: rgba(var(--color-teal-primary-rgb), 0.2); /* Transparent teal background */
+    color: var(--color-teal-light);         /* Light teal text for better contrast */
+    border: 1px solid rgba(var(--color-teal-primary-rgb), 0.5); /* Semi-transparent border */
+}
+
+/* Danger badge variant */
+.badge-danger {
+    background-color: var(--color-coral-bg-light); /* Light coral background */
+    color: var(--color-accent-dark); /* Use dark accent color (Coral Red) for text */
+    border: 1px solid var(--color-coral-light); /* Coral border */
+}
+
+html.dark .badge-danger {
+    background-color: rgba(var(--color-coral-primary-rgb), 0.2); /* Transparent coral background */
+    color: #F8A8A8;         /* Light coral text for better contrast */
+    border: 1px solid rgba(var(--color-coral-primary-rgb), 0.5); /* Semi-transparent border */
+}
+
+/* Digest Section (Textarea for generated content) */
+/* Header for the digest section */
+.digest-header {
+    display: flex;          /* Use flexbox */
+    justify-content: space-between; /* Space out title/info and actions */
+    align-items: center;    /* Vertically center items */
+    margin-bottom: var(--space-3); /* Space below header */
+    flex-wrap: wrap;        /* Allow wrapping */
+    gap: var(--space-2);    /* Space between items when wrapped */
+}
+
+/* Container for actions related to the digest (e.g., Copy, Font Size) */
+.digest-actions {
+    display: flex;          /* Use flexbox */
+    align-items: center;    /* Vertically center actions */
+    gap: var(--space-2);    /* Space between actions */
+    flex-wrap: wrap;        /* Allow wrapping */
+}
+
+/* Wrapper for the digest textarea (potentially for positioning elements relative to it) */
+.digest-textarea-wrapper {
+    position: relative;
+    border-radius: var(--radius-base); /* Match textarea radius */
+}
+
+/* The main textarea for displaying the digest/summary */
+.digest-textarea {
+    position: relative;     /* Ensure it's above potential background elements */
+    z-index: 1;
+    width: 100%;            /* Full width */
+    padding: var(--space-4); /* Padding inside textarea */
+    background-color: var(--color-bg-alt); /* Use alt background */
+    border: var(--border-width-base) solid var(--color-border-base); /* Base border */
+    border-radius: var(--radius-base); /* Base radius */
+    font-family: var(--font-mono); /* Monospace font for code-like content */
+    color: var(--color-text-base); /* Base text color */
+    resize: vertical;       /* Allow vertical resizing only */
+    min-height: 450px;      /* Minimum height */
+    line-height: 1.5;       /* Comfortable line height */
+    transition: background-color var(--transition-standard),
+                border-color var(--transition-standard),
+                color var(--transition-standard),
+                font-size var(--transition-fast); /* Smooth transitions (include font-size) */
+}
+
+/* Dark mode style for digest textarea */
+html.dark .digest-textarea {
+    background-color: var(--color-bg-alt); /* Use dark mode alt background */
+    border-color: var(--color-border-base); /* Use dark mode border */
+    color: var(--color-text-base); /* Use dark mode base text */
+}
+
+/* Focus state for digest textarea */
+.digest-textarea:focus {
+    outline: none; /* Remove default outline */
+    border-color: var(--color-focus-ring); /* Use focus ring color for border */
+    box-shadow: 0 0 0 1px var(--color-focus-ring); /* Add inner shadow */
+}
+
+/* Buttons for controlling font size within the digest textarea */
+.font-control-button {
+    color: var(--color-text-muted); /* Muted color */
+    padding: var(--space-1);    /* Padding for click area */
+    border-radius: 50%;         /* Circular button */
+    transition: background-color var(--transition-fast), color var(--transition-standard); /* Smooth transitions */
+    display: inline-flex;       /* Align icon correctly */
+    align-items: center;        /* Center icon vertically */
+    justify-content: center;    /* Center icon horizontally */
+    line-height: 1;             /* Prevent extra height */
+    border: 1px solid transparent; /* Transparent border for layout consistency */
+}
+
+/* Hover state for font control buttons */
+.font-control-button:hover:not(:disabled) {
+    color: var(--color-text-base); /* Base text color on hover */
+    background-color: #e4e4e4; /* Light gray background */
+}
+
+/* Dark mode style for font control buttons */
+html.dark .font-control-button {
+    color: var(--color-text-subtle); /* Subtle text color */
+}
+
+/* Dark mode hover state for font control buttons */
+html.dark .font-control-button:hover:not(:disabled) {
+    color: var(--color-text-inverted); /* Inverted text color */
+    background-color: #555555; /* Darker gray background */
+}
+
+/* Icon size within font control buttons */
+.font-control-button svg {
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+/* Disabled state for font control buttons */
+.font-control-button:disabled {
+    opacity: 0.5;           /* Reduce opacity */
+    cursor: not-allowed;    /* Indicate non-interactive */
+    background-color: transparent !important; /* Ensure no background when disabled */
+}
+
+/* Footer Component */
+.app-footer {
+    width: 100%;            /* Full width */
+    border-top: var(--border-width-base) solid var(--color-border-base); /* Top border */
+    margin-top: var(--space-16); /* Large space above footer */
+    transition: border-color var(--transition-standard); /* Smooth theme transition */
+    padding: var(--space-6) var(--space-4); /* Padding */
+    text-align: center;     /* Center text */
+    color: var(--color-text-muted); /* Muted text color */
+    font-size: 0.875rem;    /* Smaller font size */
+}
+
+/* Dark mode style for footer border */
+html.dark .app-footer {
+    border-top-color: var(--color-border-base); /* Use dark mode border */
+}
+
+/* Links within the footer */
+.app-footer a {
+    color: var(--color-primary); /* Use primary color */
+    font-weight: 500;       /* Medium weight */
+}
+
+.app-footer a:hover {
+    text-decoration: underline; /* Underline on hover */
+}
+
+/* Additional small text in the footer (e.g., credits) */
+.footer-thanks {
+    margin-top: var(--space-3); /* Space above thanks text */
+    font-size: 0.75rem;     /* Very small font size */
+    opacity: 0.8;           /* Slight transparency */
+    color: var(--color-text-subtle); /* Subtle text color */
+}
+
+.footer-thanks a {
+    font-weight: 400; /* Normal weight for links in thanks */
+}
+
+/* Tooltip / Tip Text */
+/* Small italicized text often used for hints or tips */
+.tip-text {
+    font-size: 0.75rem;     /* Very small font size */
+    color: var(--color-text-muted); /* Muted text color */
+    text-align: center;     /* Center align */
+    margin-top: var(--space-4); /* Space above tip */
+    font-style: italic;     /* Italicize */
+    transition: color var(--transition-standard); /* Smooth theme transition */
+}
+
+/* Toast Notifications */
+/* Base style for toast notification popups */
+.toast {
+    position: fixed;        /* Fixed position on viewport */
+    top: var(--space-4);    /* Position near top */
+    right: var(--space-4);  /* Position near right */
+    z-index: var(--z-100);  /* Highest z-index */
+    padding: var(--space-3) var(--space-4); /* Padding */
+    border-radius: var(--radius-base); /* Base radius */
+    background-color: var(--toast-bg); /* Use toast background variable */
+    color: var(--toast-text);          /* Use toast text variable */
+    box-shadow: var(--toast-shadow);   /* Use toast shadow variable */
+    opacity: 0;             /* Hidden by default */
+    transform: translateY(-1rem); /* Start slightly above final position */
+    transition: opacity var(--transition-standard),
+                transform var(--transition-standard),
+                background-color var(--transition-standard),
+                color var(--transition-standard),
+                border-color var(--transition-standard); /* Smooth transitions for appearance and position */
+    display: flex;          /* Use flexbox for layout */
+    align-items: center;    /* Vertically center content */
+    gap: var(--space-2);    /* Space between icon and text */
+    font-size: 0.875rem;    /* Small font size */
+    font-weight: 500;       /* Medium weight */
+    border-left: 4px solid transparent; /* Left border used for status color */
+    max-width: calc(100% - var(--space-8)); /* Prevent overflow on small screens */
+    pointer-events: none;   /* Not interactive by default */
+}
+
+/* Style for when the toast is visible */
+.toast.show {
+    opacity: 1;             /* Fully visible */
+    transform: translateY(0); /* Move to final position */
+    pointer-events: auto;   /* Allow interaction (e.g., dismiss button) */
+}
+
+/* Icon within the toast */
+.toast svg {
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+/* Dismiss button for the toast */
+.toast-dismiss {
+    margin-left: var(--space-2); /* Space before dismiss button */
+    padding: var(--space-1);    /* Padding for click area */
+    border-radius: var(--radius-base); /* Rounded corners */
+    opacity: 0.7;           /* Slight transparency */
+    transition: opacity var(--transition-fast), background-color var(--transition-fast); /* Smooth transitions */
+    display: flex;          /* Center icon */
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;        /* Indicate interactivity */
+    background: none;       /* No background */
+    border: none;           /* No border */
+    color: inherit;         /* Inherit color from toast */
+    pointer-events: auto;   /* Ensure button is interactive */
+}
+
+/* Hover state for dismiss button */
+.toast-dismiss:hover {
+    opacity: 1;             /* Fully opaque */
+    background-color: rgba(0, 0, 0, 0.1); /* Subtle background highlight */
+}
+
+/* Icon inside dismiss button */
+.toast-dismiss svg {
+    width: 0.875rem;
+    height: 0.875rem;
+}
+
+/* Dark mode hover state for dismiss button */
+html.dark .toast-dismiss:hover {
+    background-color: rgba(255, 255, 255, 0.1); /* Subtle background highlight for dark mode */
+}
+
+/* Toast Variants (Success, Error, Warning, Info) */
+/* Success toast */
+.toast-success {
+    border-left-color: var(--color-accent); /* Teal left border */
+    background-color: var(--color-teal-bg-light); /* Light teal background */
+    color: var(--color-accent);         /* Teal text */
+}
+
+html.dark .toast-success {
+    border-left-color: var(--color-teal-light); /* Lighter teal border */
+    background-color: rgba(var(--color-teal-primary-rgb), 0.2); /* Darker transparent teal bg */
+    color: var(--color-teal-light);     /* Lighter teal text */
+}
+
+/* Error toast */
+.toast-error {
+    border-left-color: var(--color-accent-dark); /* Coral red left border */
+    background-color: var(--color-coral-bg-light); /* Light coral background */
+    color: var(--color-accent-dark);    /* Coral red text */
+}
+
+html.dark .toast-error {
+    border-left-color: #F8A8A8; /* Lighter coral border */
+    background-color: rgba(var(--color-coral-primary-rgb), 0.2); /* Darker transparent coral bg */
+    color: #F8A8A8;         /* Lighter coral text */
+}
+
+/* Warning toast */
+.toast-warning {
+    border-left-color: var(--color-warning-text); /* Warning text color for border */
+    background-color: var(--color-warning-bg); /* Warning background */
+    color: var(--color-warning-text);   /* Warning text color */
+}
+
+html.dark .toast-warning {
+    border-left-color: var(--color-warning-text); /* Warning text color for border */
+    background-color: var(--color-warning-bg); /* Warning background */
+    color: var(--color-warning-text);   /* Warning text color */
+}
+
+/* Info toast */
+.toast-info {
+    border-left-color: var(--color-accent); /* Teal left border */
+    background-color: var(--color-teal-bg-light); /* Light teal background */
+    color: var(--color-accent);         /* Teal text */
+}
+
+html.dark .toast-info {
+    border-left-color: var(--color-teal-light); /* Lighter teal border */
+    background-color: rgba(var(--color-teal-primary-rgb), 0.2); /* Darker transparent teal bg */
+    color: var(--color-teal-light);     /* Lighter teal text */
+}
+
+/* History Modal */
+/* Fullscreen overlay for the modal */
+.modal-overlay {
+    position: fixed;        /* Cover the entire viewport */
+    inset: 0;               /* Same as top: 0; right: 0; bottom: 0; left: 0; */
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+    backdrop-filter: blur(4px);           /* Blur content behind overlay */
+    -webkit-backdrop-filter: blur(4px);   /* Safari prefix */
+    z-index: var(--z-60);   /* Ensure overlay is above content but below toasts */
+    display: none;          /* Hidden by default */
+    align-items: center;    /* Vertically center modal content */
+    justify-content: center;/* Horizontally center modal content */
+    padding: var(--space-4);/* Padding around modal content */
+    opacity: 0;             /* Start fully transparent */
+    transition: opacity var(--transition-standard); /* Smooth fade-in transition */
+}
+
+/* Style when modal is visible */
+.modal-overlay.is-visible {
+    display: flex;          /* Use flex to enable alignment */
+    opacity: 1;             /* Fully opaque */
+}
+
+/* The modal content window itself */
+.modal-content {
+    background-color: var(--color-bg-alt-2); /* Use alt background */
+    border-radius: var(--radius-xl);       /* Large radius */
+    border: var(--border-width-base) solid var(--color-border-base); /* Base border */
+    padding: var(--space-6);               /* Padding inside modal */
+    overflow: hidden;       /* Prevent content spilling out before transitions */
+    display: flex;          /* Use flexbox */
+    flex-direction: column; /* Stack header, body, footer vertically */
+    max-width: 36rem;       /* Max width constraint */
+    width: 100%;            /* Full width up to max-width */
+    max-height: 80vh;       /* Max height constraint */
+    transition: background-color var(--transition-standard),
+                border-color var(--transition-standard),
+                transform var(--transition-standard); /* Smooth transitions */
+    transform: scale(0.95); /* Start slightly scaled down */
+}
+
+/* Scale modal content to full size when visible */
+.modal-overlay.is-visible .modal-content {
+    transform: scale(1);
+}
+
+/* Dark mode style for modal content */
+html.dark .modal-content {
+    border-color: var(--color-border-base); /* Use dark mode border */
+}
+
+/* Header section of the modal */
+.modal-header {
+    display: flex;          /* Use flexbox */
+    justify-content: space-between; /* Space out title and close button */
+    align-items: center;    /* Vertically center items */
+    margin-bottom: var(--space-4); /* Space below header */
+    flex-shrink: 0;         /* Prevent header from shrinking */
+}
+
+/* Title within the modal header */
+.modal-title {
+    font-size: 1.25rem;     /* Larger font size */
+    font-weight: 700;       /* Bold weight */
+    color: var(--color-text-base); /* Base text color */
+    transition: color var(--transition-standard); /* Smooth theme transition */
+}
+
+/* Close button in the modal header */
+.modal-close-button {
+    color: var(--color-text-muted); /* Muted color */
+    transition: color var(--transition-fast); /* Smooth hover transition */
+    padding: var(--space-1);    /* Padding for click area */
+    margin: calc(-1 * var(--space-1)); /* Negative margin to increase effective click area */
+    border-radius: var(--radius-full); /* Circular hover effect */
+}
+
+.modal-close-button:hover {
+    color: var(--color-text-base); /* Base text color on hover */
+    background-color: rgba(0,0,0,0.08); /* Subtle background highlight */
+}
+
+/* Dark mode hover state for close button */
+html.dark .modal-close-button:hover {
+    background-color: rgba(255,255,255,0.08); /* Subtle background highlight for dark mode */
+}
+
+/* Icon inside the close button */
+.modal-close-button svg {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+/* Main content area of the modal (scrollable) */
+.modal-body {
+    overflow-y: auto;       /* Enable vertical scrolling if content exceeds max-height */
+    flex-grow: 1;           /* Allow body to grow and fill available space */
+    border: var(--border-width-thin) solid var(--color-border-muted); /* Subtle border around body */
+    border-radius: var(--radius-lg); /* Large radius */
+    padding: var(--space-2); /* Padding inside body */
+    margin-bottom: var(--space-4); /* Space below body */
+    transition: border-color var(--transition-standard); /* Smooth theme transition */
+    /* Custom scrollbar styles applied via general rules later */
+}
+
+/* Dark mode style for modal body border */
+html.dark .modal-body {
+    border-color: var(--color-border-dark-mode); /* Use dark mode border */
+}
+
+/* Footer section of the modal */
+.modal-footer {
+    display: flex;          /* Use flexbox */
+    justify-content: space-between; /* Space out actions (e.g., Clear, Close) */
+    align-items: center;    /* Vertically center items */
+    flex-shrink: 0;         /* Prevent footer from shrinking */
+    padding-top: var(--space-4); /* Padding above footer */
+    border-top: 1px solid var(--color-border-muted); /* Top border separator */
+    transition: border-color var(--transition-standard); /* Smooth theme transition */
+}
+
+/* Dark mode style for modal footer border */
+html.dark .modal-footer {
+    border-top-color: var(--color-border-dark-mode); /* Use dark mode border */
+}
+
+/* History List (inside the modal) */
+/* Unordered list for history items */
+.history-list {
+    list-style: none;       /* Remove default list bullets */
+    padding: 0;             /* Remove default padding */
+    margin: 0;              /* Remove default margin */
+    display: flex;          /* Use flexbox */
+    flex-direction: column; /* Stack items vertically */
+    gap: var(--space-2);    /* Space between items */
+}
+
+/* Individual history item */
+.history-item {
+    padding: var(--space-3); /* Padding inside item */
+    border-bottom: 1px solid var(--color-border-muted); /* Bottom border separator */
+    cursor: pointer;        /* Indicate interactivity */
+    transition: background-color var(--transition-fast),
+                transform var(--transition-fast),
+                border-color var(--transition-standard); /* Smooth transitions */
+    border-radius: var(--radius-base); /* Base radius */
+    outline: none;          /* Remove default outline (handled by :focus-visible) */
+}
+
+/* Remove border from the last item */
+.history-item:last-child {
+    border-bottom: none;
+}
+
+/* Dark mode style for history item border */
+html.dark .history-item {
+    border-bottom-color: var(--color-border-dark-mode); /* Use dark mode border */
+}
+
+/* Hover and focus-visible states for history item */
+.history-item:hover,
+.history-item:focus-visible { /* Apply styles on hover and keyboard focus */
+    background-color: rgba(254, 153, 0, 0.1); /* Subtle accent background (using Orange) */
+    transform: translateX(4px); /* Slight horizontal shift */
+}
+
+/* Dark mode hover/focus state */
+html.dark .history-item:hover,
+html.dark .history-item:focus-visible {
+    background-color: rgba(254, 153, 0, 0.05); /* More subtle accent background */
+}
+
+/* Content wrapper inside history item */
+.history-item-content {
+    display: flex;
+    flex-direction: column; /* Stack name and details vertically */
+}
+
+/* Name/Title of the history item */
+.history-item-name {
+    font-weight: 600;       /* Semi-bold weight */
+    color: var(--color-text-base); /* Base text color */
+    font-size: 0.875rem;    /* Small font size */
+    overflow: hidden;       /* Hide overflow */
+    text-overflow: ellipsis;/* Add ellipsis for long names */
+    white-space: nowrap;    /* Prevent wrapping */
+    transition: color var(--transition-standard); /* Smooth theme transition */
+}
+
+/* Container for details (URL, Date) */
+.history-item-details {
+    display: flex;          /* Use flexbox */
+    justify-content: space-between; /* Space out URL and date */
+    align-items: center;    /* Vertically center items */
+    margin-top: var(--space-1); /* Space above details */
+}
+
+/* URL within history item details */
+.history-item-url {
+    color: var(--color-primary); /* Use primary color */
+    font-size: 0.75rem;     /* Very small font size */
+    overflow: hidden;       /* Hide overflow */
+    text-overflow: ellipsis;/* Add ellipsis for long URLs */
+    white-space: nowrap;    /* Prevent wrapping */
+    max-width: 200px;       /* Limit width */
+    transition: color var(--transition-standard); /* Smooth theme transition */
+}
+
+.history-item-url:hover {
+    text-decoration: underline; /* Underline on hover */
+}
+
+/* Date within history item details */
+.history-item-date {
+    color: var(--color-text-muted); /* Muted text color */
+    font-size: 0.75rem;     /* Very small font size */
+    flex-shrink: 0;         /* Prevent date from shrinking */
+    margin-left: var(--space-2); /* Space before date */
+    transition: color var(--transition-standard); /* Smooth theme transition */
+}
+
+/* Message displayed when history is empty */
+.history-empty-message {
+    color: var(--color-text-muted); /* Muted text color */
+    text-align: center;     /* Center align */
+    padding: var(--space-4); /* Padding */
+    font-style: italic;     /* Italicize */
+    transition: color var(--transition-standard); /* Smooth theme transition */
+}
+
+/* --- 6. UTILITIES & HELPERS --- */
+/* Note: Many utilities are self-explanatory (e.g., .flex, .w-full). */
+/* Only key or less obvious utilities are explicitly commented here. */
+
+/* Force hide element (use sparingly, prefer conditional rendering or .hidden) */
+.is-hidden {
+    display: none !important;
+}
+
+/* Visually hide content but keep it accessible to screen readers */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px; /* Move off-screen */
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0); /* Deprecated but still common */
+    white-space: nowrap; /* Prevent wrapping */
+    border-width: 0;
+}
+
+/* Flexbox Utilities */
+.flex { display: flex !important; }
+.inline-flex { display: inline-flex !important; }
+.items-center { align-items: center; }
+.justify-center { justify-content: center; }
+.justify-between { justify-content: space-between; }
+.flex-col { flex-direction: column; }
+.flex-grow { flex-grow: 1; }
+.flex-shrink-0 { flex-shrink: 0; }
+.flex-wrap { flex-wrap: wrap; }
+
+/* Sizing Utilities */
+.w-full { width: 100%; }
+.h-full { height: 100%; }
+
+/* Positioning Utilities */
+.relative { position: relative; }
+.absolute { position: absolute; }
+.fixed { position: fixed; }
+.sticky { position: sticky; }
+.top-0 { top: 0; }
+.right-0 { right: 0; }
+.bottom-0 { bottom: 0; }
+.left-0 { left: 0; }
+.inset-0 { top: 0; right: 0; bottom: 0; left: 0; }
+
+/* Z-Index Utilities (using variables) */
+.z-10 { z-index: var(--z-10); }
+.z-50 { z-index: var(--z-50); }
+.z-60 { z-index: var(--z-60); }
+.z-100 { z-index: var(--z-100); }
+
+/* Overflow Utilities */
+.overflow-hidden { overflow: hidden; }
+.overflow-y-auto { overflow-y: auto; }
+
+/* Text Alignment Utilities */
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+
+/* --- 7. ANIMATIONS & TRANSITIONS --- */
+
+/* Simple spinning animation (used for loaders) */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Pulsing opacity animation (used for loader text) */
+@keyframes pulse {
+    50% { opacity: .5; }
+}
+
+/* Fade-in and slide-up animation with smoother ending */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(10px); /* Start slightly lower */
+    }
+    80% {
+        opacity: 0.95;
+        transform: translateY(0.5px); /* Almost at final position */
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0); /* End at normal position */
+    }
+}
+
+/* Fade-out animation for button feedback messages */
+@keyframes fadeOutFeedback {
+    0%, 80% { /* Stay visible for 80% of the duration */
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+    100% { /* Fade out and slightly move up */
+        opacity: 0;
+        transform: translateX(-50%) translateY(-5px);
+    }
+}
+
+/* Utility class to apply fadeIn animation with smoother easing */
+.fade-in {
+    animation: fadeIn 0.7s cubic-bezier(0.25, 0.1, 0.25, 1) forwards; /* Apply animation with smoother easing */
+}
+
+/* Utility classes for delayed fade-in animations */
+.fade-in-delay-1 {
+    animation: fadeIn 0.7s cubic-bezier(0.25, 0.1, 0.25, 1) 0.2s forwards; /* 0.2s delay with smoother easing */
+    opacity: 0; /* Start hidden */
+}
+
+.fade-in-delay-2 {
+    animation: fadeIn 0.7s cubic-bezier(0.25, 0.1, 0.25, 1) 0.4s forwards; /* 0.4s delay with smoother easing */
+    opacity: 0; /* Start hidden */
+}
+
+/* Custom Scrollbar Styles */
+/* Applied to specific elements like textarea, modal body, pre */
+textarea::-webkit-scrollbar,
+.modal-body::-webkit-scrollbar,
+pre::-webkit-scrollbar {
+    width: 10px;  /* Width of vertical scrollbar */
+    height: 10px; /* Height of horizontal scrollbar */
+}
+
+/* Scrollbar track (the background) */
+textarea::-webkit-scrollbar-track,
+.modal-body::-webkit-scrollbar-track,
+pre::-webkit-scrollbar-track {
+    background: var(--scrollbar-track); /* Use variable for track color */
+    border-radius: 5px; /* Rounded track */
+}
+
+/* Scrollbar thumb (the draggable part) */
+textarea::-webkit-scrollbar-thumb,
+.modal-body::-webkit-scrollbar-thumb,
+pre::-webkit-scrollbar-thumb {
+    background-color: var(--scrollbar-thumb); /* Use variable for thumb color */
+    border-radius: 5px; /* Rounded thumb */
+    border: 2px solid var(--scrollbar-track); /* Create padding around thumb */
+}
+
+/* Hover state for scrollbar thumb */
+textarea::-webkit-scrollbar-thumb:hover,
+.modal-body::-webkit-scrollbar-thumb:hover,
+pre::-webkit-scrollbar-thumb:hover {
+    background-color: var(--scrollbar-thumb-hover); /* Use variable for hover color */
+}
+
+/* Firefox scrollbar styles */
+textarea,
+.modal-body,
+pre {
+    scrollbar-width: thin; /* Use thin scrollbar */
+    scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track); /* Thumb and track colors */
+}
+
+/* --- 8. RESPONSIVE ADJUSTMENTS --- */
+
+/* Small screens and up (640px) */
+@media (min-width: 640px) {
+    /* Adjust container padding */
+    .container {
+        padding-left: var(--space-6);
+        padding-right: var(--space-6);
+    }
+    /* Adjust main container padding */
+    .main-container {
+        padding: var(--space-16) var(--space-6);
+    }
+    /* Adjust card padding for larger screens */
+    .card {
+        padding: var(--space-6); /* Reduced from space-8 but still larger than base */
+    }
+    /* Increase header title size */
+    .header-title a {
+        font-size: 1.875rem;
+    }
+    /* Adjust header navigation layout */
+    .header-nav {
+        gap: var(--space-5); /* Increase gap */
+        flex-wrap: nowrap;   /* Prevent wrapping */
+    }
+    /* Increase nav item font size */
+    .header-nav a,
+    .header-nav button {
+        font-size: 1rem;
+    }
+    /* Increase nav icon size */
+    .header-nav svg {
+        width: 1.25rem;
+        height: 1.25rem;
+    }
+    /* Show text labels in nav (if hidden on smaller screens) */
+    .header-nav .nav-text { /* Assumes .nav-text class exists for text spans */
+        display: inline;
+    }
+    /* Increase padding for nav separator */
+    .header-nav .nav-separator {
+        padding-left: var(--space-5);
+    }
+    /* Increase hero section bottom margin */
+    .hero-section {
+        margin-bottom: var(--space-16);
+    }
+    /* Increase hero title size */
+    .hero-title {
+        font-size: 3rem;
+    }
+    /* Increase hero description size */
+    .hero-description {
+        font-size: 1.25rem;
+    }
+    /* Increase hero icon size */
+    .hero-icon {
+        width: 5rem;
+    }
+    /* Adjust hero icon positioning */
+    .hero-icon-left {
+        transform: translateX(-100%) translateY(-25%);
+    }
+    .hero-icon-right {
+        transform: translateX(100%) translateY(25%);
+    }
+    /* Adjust results header layout */
+    .results-header {
+        flex-direction: row; /* Arrange title and actions horizontally */
+        justify-content: space-between;
+        align-items: center;
+    }
+    /* Increase max-width for history item URL */
+    .history-item-url {
+        max-width: 300px;
+    }
+    /* Increase top margin for tip text */
+    .tip-text {
+        margin-top: var(--space-8);
+    }
+}
+
+/* Medium screens and up (768px) */
+@media (min-width: 768px) {
+    /* Increase container max-width */
+    .container {
+        max-width: 60rem; /* 960px - reduced from 72rem/1152px */
+    }
+    /* Increase main container max-width */
+    .main-container {
+        max-width: 52rem; /* 832px - reduced from 64rem/1024px */
+    }
+    /* Adjust card max-width for medium screens */
+    .card {
+        max-width: 48rem; /* 768px */
+    }
+    /* Increase hero icon size */
+    .hero-icon {
+        width: 6rem;
+    }
+    /* Arrange main form row elements horizontally */
+    .form-row {
+        flex-direction: row;
+        align-items: flex-start; /* Align items to the top */
+        gap: var(--space-5);
+    }
+    /* Switch form options layout to a 3-column grid */
+    .form-options-row {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr)); /* Three equal columns */
+        gap: var(--space-5) var(--space-8); /* Row and column gaps */
+        align-items: start; /* Align grid items to the start */
+        flex-direction: row; /* Override default column direction */
+    }
+    /* Explicit column assignments (optional but can improve clarity) */
+    .form-options-row > .options-col-1 { grid-column: 1 / 2; grid-row: 1; }
+    .form-options-row > .options-col-2 { grid-column: 2 / 3; grid-row: 1; }
+    .form-options-row > .options-col-3 { grid-column: 3 / 4; grid-row: 1; }
+
+    /* Ensure columns stack their content vertically */
+    .options-col-1,
+    .options-col-2,
+    .options-col-3 {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-4);
+    }
+    /* Remove bottom margin from checkboxes when in grid */
+    .checkbox-container {
+        margin-bottom: 0;
+    }
+}
+
+/* Specific overrides for smaller screens (counteracting the md breakpoint grid) */
+@media (max-width: 767px) {
+    /* Revert form options row back to vertical stacking */
+    .form-options-row {
+        display: flex;
+        flex-direction: column;
+    }
+    /* Ensure option groups take full width and have spacing */
+    .form-options-row > div { /* Target direct children (column wrappers) */
+        width: 100%;
+        max-width: none;
+        margin-bottom: var(--space-4);
+    }
+    .form-options-row > div:last-child {
+        margin-bottom: 0;
+    }
+    /* Adjust checkbox layout within the vertical stack */
+    .form-options-row .checkbox-container {
+        display: flex;
+        align-items: center;
+    }
+    /* Remove potential extra margins within columns */
+    .options-col-1 > div,
+    .options-col-2 > div,
+    .options-col-3 > div {
+        margin-bottom: 0;
+    }
+    .options-col-1 > div:last-child,
+    .options-col-2 > div:last-child,
+    .options-col-3 > div:last-child {
+        margin-bottom: 0;
+    }
+}
+
+
+/* Large screens and up (1024px) */
+@media (min-width: 1024px) {
+    /* Increase container max-width and padding */
+    .container {
+        max-width: 64rem; /* 1024px - reduced from 80rem/1280px */
+        padding-left: var(--space-8);
+        padding-right: var(--space-8);
+    }
+    /* Increase main container max-width and padding */
+    .main-container {
+        max-width: 56rem; /* 896px - reduced from 70rem/1120px */
+        padding-left: var(--space-8);
+        padding-right: var(--space-8);
+    }
+    /* Adjust card max-width for large screens */
+    .card {
+        max-width: 52rem; /* 832px */
+    }
+    /* Increase hero title size */
+    .hero-title {
+        font-size: 3.75rem;
+    }
+    /* Adjust hero icon positioning further out */
+    .hero-icon-left {
+        transform: translateX(-120%) translateY(-25%);
+    }
+    .hero-icon-right {
+        transform: translateX(120%) translateY(25%);
+    }
+}
+
+/* Extra Large screens and up (1440px) */
+@media (min-width: 1440px) {
+    /* Further increase main container max-width */
+    .main-container {
+        max-width: 60rem; /* 960px - reduced from 80rem/1280px */
+    }
+    /* Adjust card max-width for extra large screens */
+    .card {
+        max-width: 56rem; /* 896px */
+    }
+    /* Increase minimum height for digest textarea */
+    .digest-textarea {
+        min-height: 550px;
+    }
+}
+
+/* Adjustments for Tall Viewports (min-height: 850px) */
+/* Reduce vertical spacing on tall screens when in the initial view (before results/errors) */
+/* Assumes a class 'initial-view' is added to the body initially */
+@media (min-height: 850px) {
+    body.initial-view .main-container {
+        padding-top: var(--space-8);    /* Reduce top padding */
+        padding-bottom: var(--space-4); /* Reduce bottom padding */
+    }
+    body.initial-view .hero-section {
+        margin-bottom: var(--space-8); /* Reduce space below hero */
+    }
+    body.initial-view .card-form { /* Assuming form is in a card with this class */
+        margin-bottom: var(--space-8); /* Reduce space below form card */
+    }
+    body.initial-view .app-footer {
+        margin-top: var(--space-8); /* Reduce space above footer */
+    }
+}

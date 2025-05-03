@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en"> <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Transform YouTube content into text optimized for LLMs. Ingest videos, playlists, and channels for language model analysis.">
+    <title>Youtubingest</title> <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Roboto+Mono:wght@400;500&display=swap&font-display=swap" rel="stylesheet">
+    <link rel="preload" as="font" href="https://fonts.gstatic.com/s/inter/v12/UcC73FwrK3iLTeHuS_fvQtMwCp50KnMa1ZL7.woff2" crossorigin="anonymous" type="font/woff2">
+
+    <style>
+        /* Fallback fonts that will be used while Google Fonts are loading */
+        @font-face {
+            font-family: 'Inter Fallback';
+            font-style: normal;
+            font-weight: 400;
+            src: local('Arial');
+            size-adjust: 105%;
+            ascent-override: 90%;
+            descent-override: 22%;
+            line-gap-override: normal;
+        }
+
+        @font-face {
+            font-family: 'Roboto Mono Fallback';
+            font-style: normal;
+            font-weight: 400;
+            src: local('Courier New');
+            size-adjust: 105%;
+            ascent-override: 90%;
+            descent-override: 22%;
+            line-gap-override: normal;
+        }
+
+        :root {
+            --font-sans: 'Inter', 'Inter Fallback', system-ui, sans-serif;
+            --font-mono: 'Roboto Mono', 'Roboto Mono Fallback', monospace;
+        }
+    </style>
+
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='15' fill='%23FE4A60'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' font-family='Inter, sans-serif' font-size='60' font-weight='bold' fill='%23FFFDF8'>Yi</text></svg>">
+
+    <link rel="stylesheet" href="/style.css">
+
+</head>
+
+<body class=""> <div id="toast" class="toast" role="status" aria-live="polite">
+        <svg id="toastIcon" class="" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 1.25rem; height: 1.25rem;" aria-hidden="true"> </svg>
+        <span id="toastMessage">Notification</span>
+        <button id="dismissToast" class="toast-dismiss" data-translate-aria-label="dismissNotificationLabel" aria-label="Dismiss notification">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+    </div>
+
+    <header class="app-header">
+        <div class="container">
+            <div class="header-content">
+                 <h1 class="header-title">
+                     <a href="/" class="">
+                         <span>Youtub</span><span class="title-primary">ingest</span>
+                     </a>
+                 </h1>
+                 <nav class="header-nav">
+                     <button id="historyButton" class="" data-translate-aria-label="historyButtonLabel" aria-label="View Request History">
+                        <svg class="" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <span class="nav-text hidden sm-inline" data-translate="historyButton">History</span>
+                     </button>
+                     <button id="darkModeToggle" class="" data-translate-aria-label="themeButtonLabel" aria-label="Toggle dark mode">
+                        <svg id="sunIcon" class="" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                        <svg id="moonIcon" class="" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                        <span class="nav-text hidden sm-inline" data-translate="themeButton">Theme</span>
+                     </button>
+                     <a href="https://github.com/nclsjn/youtubingest" target="_blank" rel="noopener noreferrer" class="" id="githubLink" data-translate-aria-label="githubButtonLabel" aria-label="View project on GitHub (opens in new tab)">
+                        <svg class="" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd"></path></svg>
+                        <span class="nav-text hidden sm-inline" data-translate="githubButton">GitHub</span>
+                     </a>
+                     <div class="nav-separator" role="group" aria-label="Language selection">
+                        <button id="langEnButton" data-lang="en" class="lang-button" data-translate-aria-label="switchToEnglish" aria-label="Switch to English" aria-pressed="false">EN</button>
+                        <span class="lang-separator" aria-hidden="true">|</span>
+                        <button id="langFrButton" data-lang="fr" class="lang-button" data-translate-aria-label="switchToFrench" aria-label="Switch to French" aria-pressed="false">FR</button>
+                     </div>
+                 </nav>
+            </div>
+        </div>
+    </header>
+
+    <div id="historyModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="historyTitle" aria-describedby="historyDescription">
+        <div class="modal-content card-modal-content">
+             <div class="modal-header">
+                <h2 id="historyTitle" class="modal-title" data-translate="historyModalTitle">Search History</h2>
+                <button id="closeHistoryBtn" class="modal-close-button" data-translate-aria-label="closeHistoryModalLabel" aria-label="Close history modal">
+                    <svg class="" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    <span class="sr-only">Close</span>
+                </button>
+             </div>
+             <div class="modal-body">
+                <p id="historyDescription" class="sr-only">List of your previous YouTube content searches. Select an item to load it again.</p>
+                <ul id="historyList" class="history-list" role="listbox">
+                    <li class="history-empty-message" data-translate="historyModalNoItems" role="status">No items in history</li>
+                </ul>
+             </div>
+             <div class="modal-footer">
+                <button id="clearHistoryBtn" class="button-danger" data-translate="historyModalClear" disabled data-translate-aria-label="clearHistoryLabel" aria-label="Clear all history items"> Clear History </button>
+                <button id="closeHistoryModalBtn" class="button button-secondary" data-translate="historyModalClose" data-translate-aria-label="closeHistoryDialogLabel" aria-label="Close history dialog"> Close </button>
+             </div>
+        </div>
+    </div>
+
+    <main class="main-container">
+        <div class=""> <section class="hero-section fade-in" aria-labelledby="heroTitle">
+                <div class="hero-content">
+                     <svg class="hero-icon hero-icon-left" viewBox="0 0 91 98" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="m35.878 14.162 1.333-5.369 1.933 5.183c4.47 11.982 14.036 21.085 25.828 24.467l5.42 1.555-5.209 2.16c-11.332 4.697-19.806 14.826-22.888 27.237l-1.333 5.369-1.933-5.183C34.56 57.599 24.993 48.496 13.201 45.114l-5.42-1.555 5.21-2.16c11.331-4.697 19.805-14.826 22.887-27.237Z" fill="#FE4A60" stroke="#1f2937" stroke-width="3"></path><path d="M79.653 5.729c-2.436 5.323-9.515 15.25-18.341 12.374m9.197 16.336c2.6-5.851 10.008-16.834 18.842-13.956m-9.738-15.07c-.374 3.787 1.076 12.078 9.869 14.943M70.61 34.6c.503-4.21-.69-13.346-9.49-16.214M14.922 65.967c1.338 5.677 6.372 16.756 15.808 15.659M18.21 95.832c-1.392-6.226-6.54-18.404-15.984-17.305m12.85-12.892c-.41 3.771-3.576 11.588-12.968 12.681M18.025 96c.367-4.21 3.453-12.905 12.854-14" stroke="#1f2937" stroke-width="2.5" stroke-linecap="round"></path></svg>
+                     <div class="relative z-10">
+                         <h2 id="heroTitle" class="hero-title">
+                             <span class="highlight-text" data-translate="mainHeading1">Prompt-friendly</span><br class="sm-hidden"> <span data-translate="mainHeading2">Youtube</span>
+                         </h2>
+                         <p class="hero-description" data-translate-html="mainDescription">
+                             Transform a YouTube video, playlist, channel, or search<br class="hidden md-block"> into text optimized for language models.
+                         </p>
+                     </div>
+                     <svg class="hero-icon hero-icon-right" viewBox="0 0 92 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="m35.213 16.953.595-5.261 2.644 4.587a35.056 35.056 0 0 0 26.432 17.33l5.261.594-4.587 2.644A35.056 35.056 0 0 0 48.23 63.28l-.595 5.26-2.644-4.587a35.056 35.056 0 0 0-26.432-17.328l-5.261-.595 4.587-2.644a35.056 35.056 0 0 0 17.329-26.433Z" fill="#057C85" stroke="#1f2937" stroke-width="3"></path><path d="M75.062 40.108c1.07 5.255 1.072 16.52-7.472 19.54m7.422-19.682c1.836 2.965 7.643 8.14 16.187 5.121-8.544 3.02-8.207 15.23-6.971 20.957-1.97-3.343-8.044-9.274-16.588-6.254M12.054 28.012c1.34-5.22 6.126-15.4 14.554-14.369M12.035 28.162c-.274-3.487-2.93-10.719-11.358-11.75C9.104 17.443 14.013 6.262 15.414.542c.226 3.888 2.784 11.92 11.212 12.95" stroke="#1f2937" stroke-width="2.5" stroke-linecap="round"></path></svg>
+                </div>
+            </section>
+
+            <section class="card card-form fade-in-delay-1" aria-labelledby="formTitle">
+                <div class="relative z-10">
+                    <form id="ingestForm" class="" aria-labelledby="formTitle">
+                        <h2 id="formTitle" class="sr-only">YouTube Content Ingestion Form</h2>
+                        <div class="form-group">
+                            <div class="form-row">
+                                <div class="flex-grow relative"> <label for="youtubeUrl" class="sr-only" data-translate="urlLabel">YouTube URL or Search Term</label>
+                                    <input type="text" name="youtubeUrl" id="youtubeUrl" placeholder="Enter YouTube URL or search term here" required data-translate-placeholder="urlPlaceholder" class="input-field" aria-describedby="highCostWarning" autocomplete="off">
+                                    <div id="highCostWarning" class="input-warning is-hidden" role="alert">
+                                        <svg class="warning-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                        <span data-translate="highCostWarning">Warning: Search queries use a lot of API quota (100 units per page)</span>
+                                        <button id="confirmHighCostButton" class="button button-sm button-warning" data-translate="confirmHighCost" data-translate-aria-label="confirmHighCostLabel" aria-label="I understand, continue anyway">Continue anyway</button>
+                                    </div>
+                                </div>
+                                <div class="button-shadow flex-shrink-0">
+                                    <button type="submit" id="submitButton" class="button button-primary w-full">
+                                        <span class="button-text" data-translate="ingestButton">Ingest</span>
+                                        <span class="button-loader">
+                                            <svg class="" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" aria-hidden="true"><circle class="" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                                            <span data-translate="ingestingButton">Ingesting...</span>
+                                        </span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <fieldset class="form-options">
+                            <legend class="sr-only">Ingestion Options</legend>
+                             <div class="form-options-row">
+                                 <div class="options-col-1">
+                                     <div class="checkbox-container checkbox-transcript">
+                                         <label class="form-checkbox-label" data-translate-title="includeTranscriptTooltip" title="Fetch and include the video transcript if available.">
+                                             <input type="checkbox" id="includeTranscript" name="includeTranscript" class="form-checkbox" checked>
+                                             <span data-translate="includeTranscriptLabel">Include Transcript</span>
+                                         </label>
+                                     </div>
+                                     <div class="checkbox-container checkbox-description">
+                                         <label class="form-checkbox-label" data-translate-title="includeDescriptionTooltip" title="Include the video description text in the digest.">
+                                             <input type="checkbox" id="includeDescription" name="includeDescription" class="form-checkbox" checked>
+                                             <span data-translate="includeDescriptionLabel">Include Description</span>
+                                         </label>
+                                     </div>
+                                     <div class="checkbox-container checkbox-separate-files">
+                                         <label class="form-checkbox-label" data-translate-title="separateFilesTooltip" title="Create a separate file for each video (downloaded as a ZIP archive).">
+                                             <input type="checkbox" id="separateFiles" name="separateFiles" class="form-checkbox">
+                                             <span data-translate="separateFilesLabel">Separate File per Video</span>
+                                         </label>
+                                     </div>
+                                 </div>
+                                 <div class="options-col-2">
+                                     <div class="start-date-container">
+                                         <label for="startDate" class="form-label" data-translate="startDateLabel" data-translate-title="startDateTooltip" title="Only include videos published on or after this date.">
+                                             Start Date:
+                                         </label>
+                                         <input type="date" id="startDate" name="startDate" class="date-field">
+                                     </div>
+                                      <div class="end-date-container">
+                                         <label for="endDate" class="form-label" data-translate="endDateLabel" data-translate-title="endDateTooltip" title="Only include videos published on or before this date.">
+                                             End Date:
+                                         </label>
+                                         <input type="date" id="endDate" name="endDate" class="date-field">
+                                     </div>
+                                 </div>
+                                  <div class="options-col-3">
+                                     <div class="interval-container">
+                                         <label for="transcriptInterval" class="form-label" data-translate="transcriptIntervalLabel" data-translate-title="transcriptIntervalTooltip" title="Group transcript lines by time interval. 'None' removes timestamps.">
+                                             Transcript Grouping (sec):
+                                         </label>
+                                         <div class="button-shadow select-wrapper">
+                                              <select id="transcriptInterval" name="transcriptInterval" class="select-field">
+                                                 <option value="0" data-translate="intervalOptionNone">None</option>
+                                                 <option value="10" selected>10s</option>
+                                                 <option value="20">20s</option>
+                                                 <option value="30">30s</option>
+                                                 <option value="60">60s</option>
+                                             </select>
+                                             <div class="select-arrow">
+                                                  <svg class="" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>
+                             </div>
+                         </fieldset>
+                    </form>
+                     <div class="example-section" role="region" aria-labelledby="exampleSectionTitle">
+                         <h3 id="exampleSectionTitle" class="example-title" data-translate="exampleSectionTitle">Or try these examples:</h3>
+                         <div class="example-buttons">
+                             <div class="button-shadow"><button data-example-url="https://www.youtube.com/watch?v=Bb8dB7d3BdE" class="button button-example example-button" data-translate="exampleVideo" data-translate-aria-label="exampleVideoLabel" aria-label="Try example: Simple Video">Simple Video</button></div>
+                             <div class="button-shadow"><button data-example-url="https://www.youtube.com/playlist?list=PLpZlOw-gjsI3GfhUVf21wz8U4k8MBejOq" class="button button-example example-button" data-translate="examplePlaylist" data-translate-aria-label="examplePlaylistLabel" aria-label="Try example: Short Playlist">Short Playlist</button></div>
+                             <div class="button-shadow"><button data-example-url="https://www.youtube.com/@NeuralNine" class="button button-example example-button" data-translate="exampleChannel" data-translate-aria-label="exampleChannelLabel" aria-label="Try example: Channel (@Handle)">Channel (@Handle)</button></div>
+                             <div class="button-shadow"><button data-example-url="LLM Explained" class="button button-example example-button" data-translate="exampleSearch" data-translate-aria-label="exampleSearchLabel" aria-label="Try example: Text Search">Text Search</button></div>
+                         </div>
+                     </div>
+                </div>
+            </section>
+
+            <section id="loading" class="loader-container is-hidden" role="status" aria-live="polite" aria-label="Loading results">
+                 <div class="card card-loading loader-card">
+                     <div class="loader" aria-hidden="true"></div>
+                     <div class="loader-text">
+                         <p id="loadingStatus" class="loader-status" data-translate="loadingInitializing">Initializing...</p>
+                         <p class="loader-subtext" data-translate="loadingMoment">This might take a moment...</p>
+                     </div>
+                 </div>
+            </section>
+
+            <section id="error" class="error-container is-hidden" role="alert" aria-labelledby="errorTitle">
+                 <div class="card card-error error-card">
+                     <div class="error-header">
+                         <svg class="" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 0C4.48 0 0 4.48 0 10s4.48 10 10 10 10-4.48 10-10S15.52 0 10 0zm0 15c-.55 0-1-.45-1-1v-4c0-.55.45-1 1-1s1 .45 1 1v4c0 .55-.45 1-1 1zm1-8H9V5h2v2z"/></svg>
+                         <strong id="errorTitle" class="error-title" data-translate="errorTitle">Error during ingestion</strong>
+                     </div>
+                     <span class="error-message" id="errorMessage"></span> <span id="errorCode" class="error-code is-hidden"></span> <p id="errorSuggestion" class="error-suggestion is-hidden"></p> <div class="error-actions">
+                         <div class="button-shadow inline-flex">
+                             <button id="retryButton" class="button button-retry button-sm">
+                                 <svg style="width: 1rem; height: 1rem; margin-right: 0.25rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                                 <span data-translate="retryButton">Retry</span>
+                             </button>
+                         </div>
+                     </div>
+                 </div>
+            </section>
+
+            <section id="results" class="results-container is-hidden" aria-labelledby="resultsTitle">
+                 <div class="card card-results results-card">
+                     <div class="results-section">
+                         <div class="results-header">
+                             <h3 id="resultsTitle" class="results-title" data-translate="resultsInfoTitle">Information</h3>
+                             <div class="results-actions" role="group" aria-label="Download options">
+                                  <div class="button-shadow">
+                                      <button id="downloadTxtButton" class="button button-action button-sm action-button" disabled data-translate-aria-label="downloadTxtLabel" aria-label="Download digest as text file">
+                                          <svg style="width: 0.875rem; height: 0.875rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                                          <span data-translate="downloadButton">Download .txt</span>
+                                      </button>
+                                  </div>
+                                  <div class="button-shadow">
+                                      <button id="downloadMdButton" class="button button-action button-sm action-button" disabled data-translate-aria-label="downloadMdLabel" aria-label="Download digest as markdown file">
+                                          <svg style="width: 0.875rem; height: 0.875rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                                          <span data-translate="downloadMdButton">Download .md</span>
+                                      </button>
+                                  </div>
+                                  <div class="button-shadow">
+                                      <button id="downloadYamlButton" class="button button-action button-sm action-button" disabled data-translate-aria-label="downloadYamlLabel" aria-label="Download digest as YAML file">
+                                          <svg style="width: 0.875rem; height: 0.875rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                                          <span data-translate="downloadYamlButton">Download .yaml</span>
+                                      </button>
+                                  </div>
+                             </div>
+                         </div>
+                         <div class="results-info-box">
+                             <div class="results-grid">
+                                 <div>
+                                     <h4 class="results-info-label" data-translate="sourceLabel">Source</h4>
+                                     <p id="source-name" class="results-info-value"></p> <div class="results-badges" role="group" aria-label="Result statistics">
+                                         <span class="badge" role="status">
+                                            <svg class="" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                                            <span id="video-count">0</span>&nbsp;<span data-translate="videoCountSuffix">video(s)</span> </span>
+
+                                         <span id="highQuotaCostBadge" class="badge badge-danger is-hidden" role="status" aria-live="polite">
+                                             <svg class="" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                             <span data-translate="highQuotaCostBadge">High API Cost</span> </span>
+                                         <span id="processingTimeBadge" class="badge badge-info" data-translate-title="processingTimeBadgeTooltip" title="Server processing time in milliseconds" role="status">
+                                             <svg class="" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                             <span id="processing-time-value">--</span>&nbsp;<span>ms</span>
+                                         </span>
+                                         <span id="apiCallsBadge" class="badge badge-info" data-translate-title="apiCallsBadgeTooltip" title="Number of YouTube API calls made for this request" role="status">
+                                             <svg class="" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                                             <span id="api-calls-value">--</span>&nbsp;<span id="api-calls-suffix" data-translate="apiCallsShort">calls</span>
+                                         </span>
+                                         <span id="apiQuotaBadge" class="badge badge-info" data-translate-title="apiQuotaBadgeTooltip" title="Estimated YouTube API quota units used (100+ is high)" role="status">
+                                             <svg class="" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+                                             <span id="api-quota-value">--</span>&nbsp;<span id="api-quota-suffix" data-translate="quotaUnits">units</span>
+                                         </span>
+                                         <span id="tokenCountBadge" class="badge badge-info" data-translate-title="tokenCountTooltip" title="Number of tokens in the generated text (used for AI model cost estimation)" role="status">
+                                             <svg class="" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"></path></svg>
+                                             <span id="token-count-value">--</span>&nbsp;<span id="token-count-suffix" data-translate="tokenCountSuffix">tokens</span>
+                                         </span>
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+
+                     <div class="results-section">
+                          <div class="digest-header">
+                             <h3 class="results-title" data-translate="digestTitle">Digest</h3>
+                              <div class="digest-actions" role="group" aria-label="Digest actions">
+                                  <button id="decreaseFontButton" class="font-control-button" data-translate-aria-label="decreaseFontLabel" aria-label="Decrease text size">
+                                     <svg class="" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 12H6"></path></svg>
+                                     <span class="sr-only">Decrease</span>
+                                 </button>
+                                  <button id="increaseFontButton" class="font-control-button" data-translate-aria-label="increaseFontLabel" aria-label="Increase text size">
+                                     <svg class="" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+                                     <span class="sr-only">Increase</span>
+                                 </button>
+                                  <div class="button-shadow">
+                                      <button id="copyDigestButton" onclick="copyToClipboard('digest', this)" class="button button-primary button-sm action-button copy-button" data-translate-aria-label="copyDigestLabel" aria-label="Copy digest to clipboard">
+                                          <svg style="width: 0.875rem; height: 0.875rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
+                                          <span data-translate="copyButton">Copy</span>
+                                      </button>
+                                  </div>
+                              </div>
+                         </div>
+                         <div class="digest-textarea-wrapper">
+                            <label for="digest" class="sr-only" data-translate="digestTextAreaLabel">Generated full digest</label>
+                            <textarea id="digest" class="digest-textarea" readonly></textarea> </div>
+                     </div>
+                 </div>
+            </section>
+
+            <p id="fontSizeTip" class="tip-text fade-in-delay-2 is-hidden" data-translate-html="tipFontSize">
+                Tip: Use <kbd>Ctrl+↑/↓</kbd> or <kbd>⌘+↑/↓</kbd> to adjust text size.
+            </p>
+        </div>
+    </main>
+
+    <footer class="app-footer">
+        <div class="container">
+             Youtubingest © <span id="footerYear">2025</span> - <span data-translate="footerInspired">Frontend design inspired by</span> <a href="https://gitingest.com" target="_blank" rel="noopener" class="">Gitingest</a>.
+             <div class="footer-thanks">
+                 <span data-translate-html="footerThanks">Thanks to <a href="https://aistudio.google.com/" target="_blank" rel="noopener">Gemini 2.5 Pro</a>, <a href="https://claude.ai/" target="_blank" rel="noopener">Claude 3.7 Sonnet</a>, <a href="https://www.augmentcode.com/" target="_blank" rel="noopener">Augment Code</a> and <a href="https://zencoder.ai" target="_blank" rel="noopener">ZenCoder</a></span>
+             </div>
+         </div>
+    </footer>
+
+    <script src="/script.js" defer></script>
+
+</body>
+</html>

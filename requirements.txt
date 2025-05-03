@@ -1,0 +1,33 @@
+# FastAPI framework and ASGI server
+fastapi
+uvicorn[standard] # Includes standard tools like websockets, http-tools
+
+# YouTube Interaction
+google-api-python-client
+youtube-transcript-api
+
+# Text Processing & NLP
+tiktoken # For token counting (OpenAI)
+emoji # For removing emojis from text
+langdetect # For language detection
+pathvalidate # For sanitizing filenames/paths
+
+# Data Validation & Models
+pydantic
+
+# Date/Time Parsing
+isodate
+
+# Security & Encryption (Optional, for API key encryption)
+cryptography
+
+# Environment Variable Loading
+python-dotenv
+
+# System Monitoring (Optional, for MemoryMonitor)
+# Install if you want detailed memory stats, otherwise MemoryMonitor uses fallbacks.
+psutil
+
+# Note: Specific versions are not pinned here to allow installation of the
+# latest compatible versions. For production or reproducible environments,
+# consider pinning versions using 'pip freeze > requirements.txt' after installation.
